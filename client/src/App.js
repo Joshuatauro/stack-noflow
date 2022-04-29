@@ -1,23 +1,32 @@
 import logo from './logo.svg';
 import './App.css';
+import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
+import Feed from './pages/feed'
+import SideNav from './components/SideNav';
+import Navbar from './components/Navbar'
+import TagsBar from './components/TagsBar';
+const FeedRoutes = () => {
+  return (
+    <div className="grid grid-cols-layout ">
+      <SideNav />
+        <Routes>
+          <Route path='/' element={<Feed />} />
+        </Routes>
+        <TagsBar />
+    </div>
+  )
+}
 
-function App() {
+const App = () => {
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <BrowserRouter>
+      <Navbar />
+        <Routes>
+          <Route path="/" element={<Navigate replace to="/feed" />} />
+          <Route path="/feed" element={<FeedRoutes />} />
+        </Routes>
+      </BrowserRouter>
     </div>
   );
 }
