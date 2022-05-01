@@ -5,15 +5,17 @@ const jwt = require('jsonwebtoken')
 const md5 = require("md5")
 
 router.post("/login", async(req, res) => {
-  const email = req.body.email.trim().toLowerCase()
+  const email = req.body.email
   const password = req.body.password
 
+  console.log(req.body)
+
   try {
-    if(!email || !password) return res.status(400).json({status: "Failure", message: "Please enter all the required details"})
+    if(!email || !password) return res.status(401).json({status: "Failure", message: "Please enter all the required details"})
 
     const checkIfUserExists = await db.query("SELECT email, username, id, hashed_password FROM users WHERE email ILIKE $1", [email])
 
-    if(checkIfUserExists.rows[0].email != email) return res.status(400).json({ 
+    if(checkIfUserExists.rows[0]?.email != email) return res.status(401).json({ 
       status: "Failure", 
       message: "No such account exists with the entered email address, try creating a new account"
     })
@@ -29,7 +31,7 @@ router.post("/login", async(req, res) => {
 
     res.cookie('authToken', authToken, {httpOnly: true}).json({
       status: 'Success',
-      message: "Logged in!"
+      message: "Successfully logged in, redirecting.."
     })
     
   } catch(err) {

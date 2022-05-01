@@ -16,7 +16,8 @@ CREATE TABLE questions (
   updated_at TIMESTAMP DEFAULT NULL,
   tags TEXT[],
   upvoted_by TEXT[],
-  downvoted_by TEXT[]
+  downvoted_by TEXT[],
+  views INT DEFAULT 0
 )
 
 CREATE TABLE comments (
@@ -25,7 +26,7 @@ CREATE TABLE comments (
   answer_id VARCHAR REFERENCES answers(id) ON DELETE CASCADE,
   body VARCHAR(200) NOT NULL,
   created_at TIMESTAMP NOT NULL,
-  updated_at TIMESTAMP NOT NULL
+  updated_at TIMESTAMP DEFAULT NULL
 )
 
 CREATE TABLE answers (

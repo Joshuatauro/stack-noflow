@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react'
 import Navbar from '../components/Navbar'
 import PostPreview from '../components/PostPreview'
-import axios from 'axios'
+import axios from '../axios'
 const Feed = () => {
   const [questions, setQuestions] = useState([])
 
   useEffect(() => {
     const fetchPosts = async() => {
-      const { data } = await axios.get('http://localhost:5000/api/questions/')
+      const { data } = await axios.get(`/api/questions/`)
       setQuestions(data.questions)
       console.log(data.questions)
     }
@@ -43,7 +43,7 @@ const Feed = () => {
         </div>
       </div>
       {
-        questions?.map(({title, body, url, username, created_at, total_answers, tags, total_upvotes, total_downvotes}) => <PostPreview title={title} body={body} url={url} totalAnswers={total_answers} username={username} createdAt={created_at} tags={tags} totalVotes={total_upvotes - total_downvotes} />)
+        questions?.map(({title, body, url, username, created_at, total_answers, tags, total_upvotes, total_downvotes, question_id}) => <PostPreview title={title} body={body} url={url} totalAnswers={total_answers} username={username} createdAt={created_at} tags={tags} totalVotes={total_upvotes - total_downvotes } qID={question_id} />)
       }
     </div>
   )

@@ -21,6 +21,25 @@ router.get("/", async(req, res) => {
   }
 })
 
+router.get('/:id', async(req, res) => {
+  const questionID = req.params.id
+  try{
+    
+    const getQuestionDetails = await db.query(`
+      SELECT q.id, title, body, q.created_at, updated_at, views, upvoted_by, downvoted_by, tags, username, user_id, url
+      FROM questions q
+      JOIN users ON q.user_id = users.id
+      WHERE q.id = $1
+    `, [questionID])
+    const updateViews = await db.query("UPDATE questions SET views = views + 1 WHERE id=$1", [questionID])
+
+    res.status(200).json({status: "Success", questionDetails: getQuestionDetails.rows[0]})
+
+  } catch(err) {
+
+  }
+})
+
 router.post("/publish", async(req, res) => {
   const title = req.body.title
   const body = req.body.body

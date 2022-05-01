@@ -15,10 +15,15 @@ module.exports = {
       },
       gridTemplateColumns: {
         'layout': '0.35fr 1.9fr 0.6fr',
+        'new-layout': '0.35fr 2.5fr',
+        'inner-layout': '1.9fr 0.57fr',
         'post-layout': '0.1fr, 0.9fr'
       },
       minHeight: {
         'custom': 'calc(100vh - 65px)'
+      },
+      borderRadius: {
+        'default': "5px"
       }
     },
   },

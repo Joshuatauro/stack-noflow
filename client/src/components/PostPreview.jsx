@@ -2,7 +2,7 @@ import React from 'react'
 import Tag from './Tag'
 import UserQuestionDetail from './UserQuestionDetail'
 import { Link } from 'react-router-dom'
-const PostPreview = ({title, body, createdAt, updatedAt, username, url, totalAnswers, tags, totalVotes}) => {
+const PostPreview = ({title, body, createdAt, updatedAt, username, url, totalAnswers, tags, totalVotes, qID}) => {
   
   console.log(tags)
   return (
@@ -22,9 +22,7 @@ const PostPreview = ({title, body, createdAt, updatedAt, username, url, totalAns
             </div>
           </div>
           <div className="">
-            {/* <Link> */}
-              <Link to={``} className=" text-[18px] text-cta">{title}</Link>
-            {/* </Link> */}
+              <Link to={`/question/${qID}`} className=" text-[18px] text-cta">{title}</Link>
             <p className='text-[13px] text-gray-700 font-normal'>{body.slice(0, 130)}{ body.length > 130 ? "..." : "" }</p>
             <div className="flex mt-2 justify-between">
               <div className="flex">
@@ -32,7 +30,7 @@ const PostPreview = ({title, body, createdAt, updatedAt, username, url, totalAns
                   tags?.map(name => <Tag tagName={name} />)
                 }
               </div>
-              <UserQuestionDetail url={url} username={username} />
+              <UserQuestionDetail url={url} username={username} background={false} />
             </div>
           </div>
         </div>
