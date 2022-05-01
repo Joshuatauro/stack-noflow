@@ -1,7 +1,20 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Navbar from '../components/Navbar'
 import PostPreview from '../components/PostPreview'
-const feed = () => {
+import axios from 'axios'
+const Feed = () => {
+  const [questions, setQuestions] = useState([])
+
+  useEffect(() => {
+    const fetchPosts = async() => {
+      const { data } = await axios.get('http://localhost:5000/api/questions/')
+      setQuestions(data.questions)
+      console.log(data.questions)
+    }
+
+    fetchPosts()
+  }, [])
+
   return (
     <div className="border-x-2 min-h-custom font-inter">
       <div className="px-4 m-auto py-5 border-b-2 ">
@@ -29,16 +42,11 @@ const feed = () => {
           </ul>
         </div>
       </div>
-      <PostPreview />
-      <PostPreview />
-      <PostPreview />
-      <PostPreview />
-      <PostPreview />
-      <PostPreview />
-      <PostPreview />
-      <PostPreview />
+      {
+        questions?.map(({title, body, url, username, created_at, total_answers, tags, total_upvotes, total_downvotes}) => <PostPreview title={title} body={body} url={url} totalAnswers={total_answers} username={username} createdAt={created_at} tags={tags} totalVotes={total_upvotes - total_downvotes} />)
+      }
     </div>
   )
 }
 
-export default feed
+export default Feed

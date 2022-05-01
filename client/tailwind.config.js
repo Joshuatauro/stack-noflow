@@ -15,7 +15,7 @@ module.exports = {
       },
       gridTemplateColumns: {
         'layout': '0.35fr 1.9fr 0.6fr',
-        'post-layout': '0.13fr, 0.87fr'
+        'post-layout': '0.1fr, 0.9fr'
       },
       minHeight: {
         'custom': 'calc(100vh - 65px)'

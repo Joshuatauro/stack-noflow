@@ -1,7 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
-import Feed from './pages/feed'
+import Feed from './pages/Feed'
 import SideNav from './components/SideNav';
 import Navbar from './components/Navbar'
 import TagsBar from './components/TagsBar';
