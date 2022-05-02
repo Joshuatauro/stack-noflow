@@ -9,7 +9,6 @@ const Feed = () => {
     const fetchPosts = async() => {
       const { data } = await axios.get(`/api/questions/`)
       setQuestions(data.questions)
-      console.log(data.questions)
     }
 
     fetchPosts()
@@ -18,9 +17,9 @@ const Feed = () => {
   return (
     <div className="border-x-2 min-h-custom font-inter">
       <div className="px-4 m-auto py-5 border-b-2 ">
-        <div className="flex items-center justify-between">
-          <h1 className="text-2xl font-normal">All Questions</h1>
-          <button className="bg-cta px-5 py-1.5 text-2xl font-dongle text-white rounded-md">
+      <div className="flex items-center justify-between">
+          <h1 className="text-[24px] font-medium text-gray-800 mr-2">all questions</h1>
+          <button className="bg-cta px-5 py-3 text-sm font-medium min-w-max font-inter text-white rounded-default place-self-start ">
             Ask Question
           </button>
         </div>
@@ -42,6 +41,24 @@ const Feed = () => {
           </ul>
         </div>
       </div>
+      {
+        questions?.map(({title, body, url, username, created_at, total_answers, tags, total_upvotes, total_downvotes, question_id}) => <PostPreview title={title} body={body} url={url} totalAnswers={total_answers} username={username} createdAt={created_at} tags={tags} totalVotes={total_upvotes - total_downvotes } qID={question_id} />)
+      }
+      {
+        questions?.map(({title, body, url, username, created_at, total_answers, tags, total_upvotes, total_downvotes, question_id}) => <PostPreview title={title} body={body} url={url} totalAnswers={total_answers} username={username} createdAt={created_at} tags={tags} totalVotes={total_upvotes - total_downvotes } qID={question_id} />)
+      }
+      {
+        questions?.map(({title, body, url, username, created_at, total_answers, tags, total_upvotes, total_downvotes, question_id}) => <PostPreview title={title} body={body} url={url} totalAnswers={total_answers} username={username} createdAt={created_at} tags={tags} totalVotes={total_upvotes - total_downvotes } qID={question_id} />)
+      }
+      {
+        questions?.map(({title, body, url, username, created_at, total_answers, tags, total_upvotes, total_downvotes, question_id}) => <PostPreview title={title} body={body} url={url} totalAnswers={total_answers} username={username} createdAt={created_at} tags={tags} totalVotes={total_upvotes - total_downvotes } qID={question_id} />)
+      }
+      {
+        questions?.map(({title, body, url, username, created_at, total_answers, tags, total_upvotes, total_downvotes, question_id}) => <PostPreview title={title} body={body} url={url} totalAnswers={total_answers} username={username} createdAt={created_at} tags={tags} totalVotes={total_upvotes - total_downvotes } qID={question_id} />)
+      }
+      {
+        questions?.map(({title, body, url, username, created_at, total_answers, tags, total_upvotes, total_downvotes, question_id}) => <PostPreview title={title} body={body} url={url} totalAnswers={total_answers} username={username} createdAt={created_at} tags={tags} totalVotes={total_upvotes - total_downvotes } qID={question_id} />)
+      }
       {
         questions?.map(({title, body, url, username, created_at, total_answers, tags, total_upvotes, total_downvotes, question_id}) => <PostPreview title={title} body={body} url={url} totalAnswers={total_answers} username={username} createdAt={created_at} tags={tags} totalVotes={total_upvotes - total_downvotes } qID={question_id} />)
       }

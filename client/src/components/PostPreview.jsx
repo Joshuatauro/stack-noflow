@@ -4,7 +4,6 @@ import UserQuestionDetail from './UserQuestionDetail'
 import { Link } from 'react-router-dom'
 const PostPreview = ({title, body, createdAt, updatedAt, username, url, totalAnswers, tags, totalVotes, qID}) => {
   
-  console.log(tags)
   return (
     <section className="w-full text-inter border-b-2">
       <div className="pr-2 m-auto py-3">

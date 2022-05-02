@@ -1,4 +1,4 @@
-import { ArrowCircleDownIcon, ArrowCircleUpIcon } from '@heroicons/react/outline'
+import { ArrowCircleDownIcon, ArrowCircleUpIcon, ChevronDoubleDownIcon, ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/outline'
 import axios from '../axios'
 import React, { useEffect, useState, useContext } from 'react'
 import { useParams } from 'react-router-dom'
@@ -9,7 +9,7 @@ import UserQuestionDetail from '../components/UserQuestionDetail'
 import { AuthContext } from '../context/AuthContext'
 
 const SinglePost = () => {
-  const { userID } = useContext(AuthContext)
+  const { userID, username: owner_username, url: owner_url } = useContext(AuthContext)
 
   const { id } = useParams()
 
@@ -24,10 +24,14 @@ const SinglePost = () => {
   const [username, setUsername] = useState('')
   const [url, setUrl] = useState('')
   
+  const [answers, setAnswers] = useState([])
+  const [comments, setComments] = useState([])
+
+  const [answer, setAnswer] = useState('')
 
   useEffect(() => {
     const getQuestionData = async() => {
-      const { data } = await axios.get(`/api/questions/${id}`)
+      const { data } = await axios.get(`/api/questions/${id}`, {withCredentials: true} )
       const { body, title, url, username, upvoted_by, downvoted_by, views, id:question_id } = data.questionDetails
       setBody(body)
       setTitle(title)
@@ -36,10 +40,29 @@ const SinglePost = () => {
       setDownvotedBy(downvoted_by ? downvoted_by : [])
       setUpvotedBy(upvoted_by)
       setViews(views)
-
     }
+
+    const getAnswersAndCommentsData = async() => {
+      const { data } = await axios.get(`/api/answers/${id}`, { withCredentials: true })
+      console.log(data)
+      setComments(data.comments)
+      setAnswers(data.answers)
+    }
+
     getQuestionData()
+    getAnswersAndCommentsData()
   }, [])
+
+  const submitAnswer = async(e) => {
+    e.preventDefault()
+    const { data } = await axios.post('/api/answers/publish', { answer, questionID: id }, { withCredentials: true })
+    const answerDets = data.answerDetails
+    answerDets.username = owner_username
+    answerDets.url = owner_url
+
+    setAnswers([...answers, answerDets])
+
+  }
 
   const handleUpvote = () => {
     console.log('clicked')
@@ -78,12 +101,12 @@ const SinglePost = () => {
           <div className="grid grid-cols-[0.1fr_0.9fr] pb-4 border-b-2">
             <div className='flex flex-col mt-5 h-fit items-center '>
               <button className="outline-none" onClick={handleUpvote}>
-                <ArrowCircleUpIcon className={`w-10  ${upvotedBy.includes(userID) ? "text-orange-500" : "text-gray-700"}`} />
+                <ChevronUpIcon className={`w-10  ${upvotedBy.includes(userID) ? "text-orange-500" : "text-gray-700"}`} />
               </button>
               <h1 className='my-1 font-medium text-[17px]'>{upvotedBy.length - downvotedBy
               .length}</h1>
               <button className="" onClick={handleDownvote}>
-                <ArrowCircleDownIcon className={`w-10  ${downvotedBy.includes(userID) ? "text-orange-500" : "text-gray-700"}`}/>
+                <ChevronDownIcon className={`w-10  ${downvotedBy.includes(userID) ? "text-orange-500" : "text-gray-700"}`}/>
               </button>
             </div>
             <div className="">  
@@ -103,7 +126,7 @@ const SinglePost = () => {
             </div>
           </div>
           <div className="flex justify-between items-center px-4 mt-5 mb-2">
-            <h1 className="text-xl font-semibold">2 Answers</h1>
+            <h1 className="text-xl font-semibold">{answers.length} Answers</h1>
             <ul className="flex items-center ">
               <li className="bg-cta-fade py-1.5 px-4 o outline outline-1 outline-cta flex items-center justify-center rounded-tl-md rounded-bl-md  text-cta-fade-text">
                 <h1 className="text-sm">Newest</h1>
@@ -116,13 +139,15 @@ const SinglePost = () => {
               </li>
             </ul>
           </div>
-          <AnswerBody url={"https://secure.gravatar.com/avatar/62184217e125b50017b1462f?s=164&d=identicon"} />
-          <AnswerBody url={"https://www.gravatar.com/avatar/54575a5b5887e5b9a61bf48a307710ff?d=identicon"} />
+          {
+            answers.map(({url, body, username, created_at, updated_at, upvoted_by, downvoted_by, user_id}) => <AnswerBody url={url} username={username} upvotedBy={upvoted_by} downvotedBy={downvoted_by} body={body} ownerID={user_id} />)
+          }
+
 
           <div className="px-4 mb-5 mt-2">
             <h1 className="text-xl font-medium">Your answer</h1>
-            <textarea className="w-full h-40 outline outline-[1.5px] text-sm text-gray-800 px-2 py-2 mt-2 resize-y rounded-default outline-gray-300 focus:outline-gray-600"></textarea>
-            <button className="rounded-default bg-cta text-white py-2 px-10 text-sm font-medium">Submit Answer</button>
+            <textarea value={answer} onChange={e => setAnswer(e.target.value)} className="w-full h-40 outline outline-[1.5px] text-sm text-gray-800 px-2 py-2 mt-2 resize-y rounded-default outline-gray-300 focus:outline-gray-600"></textarea>
+            <button type='submit' onClick={submitAnswer} className="rounded-default bg-cta text-white py-2 px-10 text-sm font-medium">Submit Answer</button>
           </div>
         </div>
         <TagsBar />

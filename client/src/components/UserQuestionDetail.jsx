@@ -1,4 +1,5 @@
 import React from 'react'
+import { Link } from 'react-router-dom'
 
 const UserQuestionDetail = ({url, username, background}) => {
   return (
@@ -8,7 +9,7 @@ const UserQuestionDetail = ({url, username, background}) => {
           <img className={`object-contain ${background ? 'h-[40px]' : "h-[35px]"}`} src={url} alt="" />
           <div className="text-xs ml-2">
             <p className="text-gray-600">asked 2 months ago by</p>
-            <h1 className="text-cta">{username}</h1>
+            <Link to={`/users/${username}`} className="text-cta">{username}</Link>
           </div>
         </div>
       </div>
