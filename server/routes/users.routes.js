@@ -26,12 +26,14 @@ router.post("/login", async(req, res) => {
 
     const authToken = jwt.sign({
       username: checkIfUserExists.rows[0].username,
-      userID: checkIfUserExists.rows[0].id
-    }, process.env.JWT_SECRET)
+      userID: checkIfUserExists.rows[0].id,
+      url: `https://www.gravatar.com/avatar/${md5(email.trim().toLowerCase())}?d=identicon`
+    }, process.env.JWT_SECRET)  
 
     res.cookie('authToken', authToken, {httpOnly: true}).json({
       status: 'Success',
-      message: "Successfully logged in, redirecting.."
+      message: "Successfully logged in, redirecting..",
+      userID: checkIfUserExists.rows[0].id
     })
     
   } catch(err) {
@@ -69,7 +71,6 @@ router.post("/signup", async(req, res) => {
     const hashedPassword = await bcrypt.hash(password, salt)
 
     let gravitarURL = `https://www.gravatar.com/avatar/${md5(email.trim().toLowerCase())}?d=identicon`
-    console.log(gravitarURL)
 
     const addNewUserQuery = await db.query("INSERT INTO users (username, hashed_password, email, url, joined_at) VALUES ($1, $2, $3, $4, $5) returning id", [username, hashedPassword, email, gravitarURL, new Date()])
 
@@ -78,7 +79,9 @@ router.post("/signup", async(req, res) => {
       const authToken = jwt.sign(
         {
           username,
-          userID: addNewUserQuery.rows[0].id
+          userID: addNewUserQuery.rows[0].id,
+          email: addNewUserQuery.rows[0].email,
+          url: gravitarURL
         }, process.env.JWT_SECRET
       )
 
@@ -97,6 +100,19 @@ router.post("/signup", async(req, res) => {
   } catch(err) {
     console.log(err)
   } 
+})
+
+router.get("/status", async(req, res) => {
+  const userID = req.userID
+  const username = req.username
+  const url = req.profile_url
+
+  res.status(200).json({
+    status: "Success",
+    userID,username,
+    isLoggedIn: userID ? true : false,
+    url
+  })
 })
 
 module.exports = router

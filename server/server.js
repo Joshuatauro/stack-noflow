@@ -22,10 +22,11 @@ const authChecker = async(req, res, next) => {
   const authToken = req.cookies.authToken
   try{
 
-    if(!authToken) return next()
-    const {userID} = await jwt.verify(authToken, process.env.JWT_SECRET)
-    
+    // if(!authToken) return next()
+    const {userID, username, url} = await jwt.verify(authToken, process.env.JWT_SECRET)
     req.userID = userID //Setting a property in the req as userID
+    req.username = username
+    req.profile_url = url
     return next()
   } catch(err) {
     return next()
@@ -37,6 +38,7 @@ app.use(authChecker)
 app.use("/api/auth", require('./routes/users.routes'))
 app.use("/api/questions", require('./routes/questions.routes'))
 app.use('/api/answers', require('./routes/answers.routes'))
+app.use('/api/comments', require('./routes/comments.routes'))
 
 
 const PORT = process.env.PORT || 5000

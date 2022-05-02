@@ -24,7 +24,8 @@ CREATE TABLE comments (
   id VARCHAR PRIMARY KEY DEFAULT uuid_generate_v4(),
   user_id VARCHAR REFERENCES users(id) ON DELETE SET NULL,
   answer_id VARCHAR REFERENCES answers(id) ON DELETE CASCADE,
-  body VARCHAR(200) NOT NULL,
+  question_id VARCHAR REFERENCES questions(id) ON DELETE CASCADE,
+  body VARCHAR NOT NULL,
   created_at TIMESTAMP NOT NULL,
   updated_at TIMESTAMP DEFAULT NULL
 )
@@ -33,7 +34,7 @@ CREATE TABLE answers (
   id VARCHAR PRIMARY KEY DEFAULT uuid_generate_v4(),
   user_id VARCHAR REFERENCES users(id) ON DELETE SET NULL,
   question_id VARCHAR REFERENCES questions(id) ON DELETE CASCADE,
-  body VARCHAR(200) NOT NULL,
+  body VARCHAR NOT NULL,
   created_at TIMESTAMP NOT NULL,
   updated_at TIMESTAMP DEFAULT NULL,
   upvoted_by TEXT[],
