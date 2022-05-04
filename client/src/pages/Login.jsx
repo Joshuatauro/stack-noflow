@@ -3,6 +3,7 @@ import { Link } from 'react-router-dom'
 import { AuthContext } from '../context/AuthContext'
 import toast, {Toaster} from 'react-hot-toast'
 import { useNavigate } from 'react-router-dom'
+import { CheckCircleIcon, XCircleIcon } from '@heroicons/react/outline'
 const Login = () => {
   const navigate = useNavigate()
   const { login } = useContext(AuthContext)
@@ -15,23 +16,14 @@ const Login = () => {
     const response = await login(email, password)
     if(response.data.status === "Success") {
       toast.success(response.data.message, {
-        iconTheme: {
-          primary: "#22C55E",
-          
-        },
-        style: {
-          backgroundColor: "#22C55E",
-          color: "#fff"
-        }
+        icon: <CheckCircleIcon className='h-44' />,
       })
       setTimeout(() => {
         return navigate("/feed")
       }, "3000")
     } else {
       toast.error(response.data.message, {
-        iconTheme: {
-          primary: "#EF4444"
-        },
+        icon: <XCircleIcon className='h-6' />,
         style: {
           backgroundColor: "#EF4444",
           color: "#fff"
@@ -74,7 +66,7 @@ const Login = () => {
   }
 
   return (
-    <div className="w-full h-screen font-inter">
+    <div className="w-full h-screen">
       <h1 className="w-full py-5 border-b-2 flex items-center justify-center text-3xl font-bold">Stack<span className="text-cta">noflow</span></h1>
       <div className=" flex flex-col w-1/3 m-auto mt-5">
         <form action="" className="">

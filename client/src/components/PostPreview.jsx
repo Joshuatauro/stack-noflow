@@ -2,15 +2,17 @@ import React from 'react'
 import Tag from './Tag'
 import UserQuestionDetail from './UserQuestionDetail'
 import { Link } from 'react-router-dom'
-const PostPreview = ({title, body, createdAt, updatedAt, username, url, totalAnswers, tags, totalVotes, qID}) => {
-  
+const PostPreview = ({title, body, createdAt, updatedAt, username, url, totalAnswers, tags, upvotedBy, downvotedBy, qID, views}) => {
+  const upvoted = upvotedBy ? upvotedBy.length : []
+  const downvoted = downvotedBy ? downvotedBy.length : []
+
   return (
     <section className="w-full text-inter border-b-2">
       <div className="pr-2 m-auto py-3">
         <div className="grid grid-cols-post-layout">
           <div className="flex flex-col">
             <div className="flex flex-col justify-center items-center">
-              <h1 className="text-xl font-medium">{totalVotes}</h1>
+              <h1 className="text-xl font-medium">{upvoted - downvoted}</h1>
               <p className='text-xs -mt-1'>votes</p>
             </div>
             <div className="flex flex-col justify-center items-center mt-1.5">
@@ -18,6 +20,9 @@ const PostPreview = ({title, body, createdAt, updatedAt, username, url, totalAns
                 {totalAnswers}
               </h1>
               <p className='text-xs -mt-1'>answers</p>
+            </div>
+            <div className="flex flex-col justify-center items-center mt-1.5">
+              <p className='text-xs text-gray-600 -mt-0.5'>{views} {` `} views</p>
             </div>
           </div>
           <div className="">
@@ -29,7 +34,7 @@ const PostPreview = ({title, body, createdAt, updatedAt, username, url, totalAns
                   tags?.map(name => <Tag tagName={name} />)
                 }
               </div>
-              <UserQuestionDetail url={url} username={username} background={false} />
+              <UserQuestionDetail url={url} username={username} createdAt={createdAt} background={false} />
             </div>
           </div>
         </div>

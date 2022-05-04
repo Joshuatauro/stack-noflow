@@ -7,6 +7,8 @@ import Navbar from './components/Navbar'
 import TagsBar from './components/TagsBar';
 import SinglePost from './pages/SinglePost';
 import Login from './pages/Login'
+import Publish from './pages/Publish';
+
 const FeedRoutes = () => {
   return (
     <>
@@ -23,7 +25,6 @@ const FeedRoutes = () => {
 }
 
 const QuestionRoute = () => {
-  console.log("called this rn")
   return (
     <>
       <Navbar />
@@ -36,17 +37,31 @@ const QuestionRoute = () => {
   )
 }
 
+const PostRoute = () => {
+  return(
+    <>
+      <Navbar />
+      <div className="grid grid-cols-layout ">
+        <SideNav />
+          <Publish />
+        <TagsBar />
+      </div>
+    </>
+  )
+}
+
 
 const App = () => {
   return (
-    <div className="App">
+    <div className="App font-inter">
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Navigate replace to="/feed" />} />
           <Route path="/feed" element={<FeedRoutes />} />
           <Route path="/question/:id" element={<QuestionRoute />} />
           <Route path="/login" element={<Login />} />
-        </Routes>
+          <Route path="/publish" element={<PostRoute />} />
+        </Routes> 
       </BrowserRouter>
     </div>
   );

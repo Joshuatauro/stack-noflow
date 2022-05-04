@@ -16,8 +16,8 @@ const Navbar = () => {
       <div className=" px-6  h-16 flex items-center  m-auto">
         <div className="flex items-center w-full mr-2 ">
           <div className="flex items-center flex-1">
-            <Link to="/" className="text-xl font-black font-inter text-gray-800 mr-2">stack<span className="text-cta">noflow</span></Link>
-            <input type="text" placeholder="Search anything here....." className="w-10/12 h-11 px-4 focus:outline-gray-800 outline outline-1 outline-gray-400 rounded-md font-inter text-sm font-normal placeholder:text-gray-600" />
+            <Link to="/" className="text-xl font-black text-gray-800 mr-2">stack<span className="text-cta">noflow</span></Link>
+            <input type="text" placeholder="Search anything here....." className="w-10/12 h-11 px-4 focus:outline-gray-800 outline outline-1 outline-gray-400 rounded-md text-sm font-normal placeholder:text-gray-600" />
           </div>
         </div>
         {

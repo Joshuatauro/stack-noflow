@@ -2,7 +2,7 @@ import React from 'react'
 import { GlobeIcon, TagIcon, UserIcon } from '@heroicons/react/outline'
 const SideNav = () => {
   return (
-    <div className="mt-5 font-inter sticky top-[85px] h-min ">
+    <div className="mt-5 sticky top-[85px] h-min ">
       <div className="">
         <ul className="sticky top-[100px]">
           <li className=" py-1.5 bg-gray-200 border-r-4 border-cta mb-2 ">

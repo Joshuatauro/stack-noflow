@@ -2,26 +2,42 @@ import React, { useEffect, useState } from 'react'
 import Navbar from '../components/Navbar'
 import PostPreview from '../components/PostPreview'
 import axios from '../axios'
+import { Link } from 'react-router-dom'
+import toast, {Toaster} from 'react-hot-toast'
+
 const Feed = () => {
   const [questions, setQuestions] = useState([])
+  const [page, setPage] = useState(0)
 
   useEffect(() => {
     const fetchPosts = async() => {
       const { data } = await axios.get(`/api/questions/`)
       setQuestions(data.questions)
+      setPage(prev => prev+1)
     }
 
     fetchPosts()
   }, [])
 
+  const getNextPage = async() => {
+    const { data } = await axios.get(`/api/questions?page=${page}`)
+    console.log(data.questions)
+    setQuestions([...questions, ...data.questions])
+    setPage(prev => prev+1)
+    toast.success('Fetching', {
+      
+    })
+  }
+
+
   return (
-    <div className="border-x-2 min-h-custom font-inter">
+    <div className="border-x-2 min-h-custom ">
       <div className="px-4 m-auto py-5 border-b-2 ">
-      <div className="flex items-center justify-between">
-          <h1 className="text-[24px] font-medium text-gray-800 mr-2">all questions</h1>
-          <button className="bg-cta px-5 py-3 text-sm font-medium min-w-max font-inter text-white rounded-default place-self-start ">
+        <div className="flex items-center justify-between">
+          <h1 className="text-[24px] font-medium text-gray-800 mr-2">All Questions</h1>
+          <Link to="/publish" className="bg-cta px-5 py-3 text-sm font-medium min-w-max text-white rounded-default place-self-start ">
             Ask Question
-          </button>
+          </Link>
         </div>
         <div className="flex justify-end">
 
@@ -42,26 +58,12 @@ const Feed = () => {
         </div>
       </div>
       {
-        questions?.map(({title, body, url, username, created_at, total_answers, tags, total_upvotes, total_downvotes, question_id}) => <PostPreview title={title} body={body} url={url} totalAnswers={total_answers} username={username} createdAt={created_at} tags={tags} totalVotes={total_upvotes - total_downvotes } qID={question_id} />)
+        questions?.map(({title, body, url, username, created_at, total_answers, tags, upvoted_by, downvoted_by, question_id, views}) => <PostPreview title={title} body={body} url={url} totalAnswers={total_answers} username={username} createdAt={created_at} tags={tags} upvotedBy={upvoted_by} downvotedBy={downvoted_by} qID={question_id} views={views} />)
       }
-      {
-        questions?.map(({title, body, url, username, created_at, total_answers, tags, total_upvotes, total_downvotes, question_id}) => <PostPreview title={title} body={body} url={url} totalAnswers={total_answers} username={username} createdAt={created_at} tags={tags} totalVotes={total_upvotes - total_downvotes } qID={question_id} />)
-      }
-      {
-        questions?.map(({title, body, url, username, created_at, total_answers, tags, total_upvotes, total_downvotes, question_id}) => <PostPreview title={title} body={body} url={url} totalAnswers={total_answers} username={username} createdAt={created_at} tags={tags} totalVotes={total_upvotes - total_downvotes } qID={question_id} />)
-      }
-      {
-        questions?.map(({title, body, url, username, created_at, total_answers, tags, total_upvotes, total_downvotes, question_id}) => <PostPreview title={title} body={body} url={url} totalAnswers={total_answers} username={username} createdAt={created_at} tags={tags} totalVotes={total_upvotes - total_downvotes } qID={question_id} />)
-      }
-      {
-        questions?.map(({title, body, url, username, created_at, total_answers, tags, total_upvotes, total_downvotes, question_id}) => <PostPreview title={title} body={body} url={url} totalAnswers={total_answers} username={username} createdAt={created_at} tags={tags} totalVotes={total_upvotes - total_downvotes } qID={question_id} />)
-      }
-      {
-        questions?.map(({title, body, url, username, created_at, total_answers, tags, total_upvotes, total_downvotes, question_id}) => <PostPreview title={title} body={body} url={url} totalAnswers={total_answers} username={username} createdAt={created_at} tags={tags} totalVotes={total_upvotes - total_downvotes } qID={question_id} />)
-      }
-      {
-        questions?.map(({title, body, url, username, created_at, total_answers, tags, total_upvotes, total_downvotes, question_id}) => <PostPreview title={title} body={body} url={url} totalAnswers={total_answers} username={username} createdAt={created_at} tags={tags} totalVotes={total_upvotes - total_downvotes } qID={question_id} />)
-      }
+      <div className="flex justify-center my-4">
+        <button onClick={getNextPage} className="px-6 py-3 bg-cta rounded-default text-white font-medium text-sm">Get more</button>
+      </div>
+      <Toaster position="bottom-right" /> 
     </div>
   )
 }
