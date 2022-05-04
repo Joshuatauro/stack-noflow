@@ -39,7 +39,7 @@ app.use("/api/auth", require('./routes/users.routes'))
 app.use("/api/questions", require('./routes/questions.routes'))
 app.use('/api/answers', require('./routes/answers.routes'))
 app.use('/api/comments', require('./routes/comments.routes'))
-
+app.use('/api/voting', require('./routes/voting.routes'))
 
 const PORT = process.env.PORT || 5000
 

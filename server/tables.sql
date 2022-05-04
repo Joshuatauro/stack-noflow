@@ -15,10 +15,10 @@ CREATE TABLE questions (
   created_at TIMESTAMP NOT NULL,
   updated_at TIMESTAMP DEFAULT NULL,
   tags TEXT[],
-  upvoted_by TEXT[],
-  downvoted_by TEXT[],
+  upvoted_by TEXT[] DEFAULT array[]::VARCHAR[],
+  downvoted_by TEXT[] DEFAULT array[]::VARCHAR[],
   views INT DEFAULT 0
-)
+);
 
 CREATE TABLE comments (
   id VARCHAR PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -28,7 +28,7 @@ CREATE TABLE comments (
   body VARCHAR NOT NULL,
   created_at TIMESTAMP NOT NULL,
   updated_at TIMESTAMP DEFAULT NULL
-)
+);
 
 CREATE TABLE answers (
   id VARCHAR PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -37,6 +37,6 @@ CREATE TABLE answers (
   body VARCHAR NOT NULL,
   created_at TIMESTAMP NOT NULL,
   updated_at TIMESTAMP DEFAULT NULL,
-  upvoted_by TEXT[],
-  downvoted_by TEXT[]
-)
+  upvoted_by TEXT[] DEFAULT array[]::VARCHAR[],
+  downvoted_by TEXT[] DEFAULT array[]::VARCHAR[]
+);
