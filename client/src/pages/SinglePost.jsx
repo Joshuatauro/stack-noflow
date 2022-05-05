@@ -1,4 +1,4 @@
-import { ArrowCircleDownIcon, ArrowCircleUpIcon, ChevronDoubleDownIcon, ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/outline'
+import { ArrowCircleDownIcon, ArrowCircleUpIcon, CheckCircleIcon, ChevronDoubleDownIcon, ChevronDownIcon, ChevronUpIcon, XCircleIcon } from '@heroicons/react/outline'
 import axios from '../axios'
 import React, { useEffect, useState, useContext } from 'react'
 import { Link, useParams } from 'react-router-dom'
@@ -8,12 +8,14 @@ import TagsBar from '../components/TagsBar'
 import UserQuestionDetail from '../components/UserQuestionDetail'
 import { AuthContext } from '../context/AuthContext'
 import Moment from 'react-moment'
+import toast, { Toaster } from 'react-hot-toast'
+
 const SinglePost = () => {
   const { userID, username: owner_username, url: owner_url } = useContext(AuthContext)
-
   const { id } = useParams()
 
   const [body, setBody] = useState('')
+  const [authorID, setAuthorID] = useState('')
   const [title, setTitle] = useState('')
   const [views, setViews] = useState('')
   const [upvotedBy, setUpvotedBy] = useState([1,2,3])
@@ -21,17 +23,22 @@ const SinglePost = () => {
   const [username, setUsername] = useState('')
   const [url, setUrl] = useState('')
   const [createdAt, setCreatedAt] = useState()
+  const [updatedAt, setUpdatedAt] = useState()
   
   const [answers, setAnswers] = useState([])
   const [comments, setComments] = useState([])
 
   const [answer, setAnswer] = useState('')
 
+  const [isEditing, setIsEditing] = useState(false)
+  const [editingBody, setEditingBody] = useState('')
+
   useEffect(() => {
     const getQuestionData = async() => {
       const { data } = await axios.get(`/api/questions/${id}`, {withCredentials: true} )
-      const { body, title, url, username, upvoted_by, downvoted_by, views, created_at } = data.questionDetails
+      const { body, title, url, username, upvoted_by, downvoted_by, views, created_at, updated_at, user_id:author_id} = data.questionDetails
       setBody(body)
+      setEditingBody(body)
       setTitle(title)
       setUrl(url)
       setUsername(username)
@@ -39,6 +46,8 @@ const SinglePost = () => {
       setUpvotedBy(upvoted_by ? upvoted_by : [])
       setViews(views)
       setCreatedAt(created_at)
+      setUpdatedAt(updated_at)
+      setAuthorID(author_id)
     }
 
     const getAnswersAndCommentsData = async() => {
@@ -89,6 +98,37 @@ const SinglePost = () => {
     }
   }
 
+  const handleEditQuestion = async() => {
+    try {
+    
+      const { data } = await axios.post(`/api/questions/${id}/edit`, { editedBody: editingBody }, { withCredentials: true })
+      if(data.status === "Success") {
+        setBody(data.editedDetails.body)
+        setUpdatedAt(data.editedDetails.updated_at)
+        setIsEditing(false)
+
+        toast.success(data.message, {
+          icon: <CheckCircleIcon className='h-6' />,
+          style: {
+            backgroundColor: "#22C55E",
+            color: "#fff"
+          }
+        })
+
+      }
+
+    } catch (err) {
+      toast.error(err.response.data.message, {
+        icon: <XCircleIcon className='h-6' />,
+        style: {
+          backgroundColor: "#EF4444",
+          color: "#fff"
+        },
+        
+      })
+    }
+  }
+
   return (
     <div className="border-l-2  min-h-custom">
       <div className="pl-4 pr-6 m-auto pt-5 pb-3 border-b-2 ">
@@ -116,24 +156,42 @@ const SinglePost = () => {
               <button className="outline-none" onClick={handleUpvote}>
                 <ChevronUpIcon className={`w-10  ${upvotedBy?.includes(userID) ? "text-orange-500" : "text-gray-700"}`} />
               </button>
-              <h1 className='my-1 font-medium text-[17px]'>{upvotedBy?.length - downvotedBy?.length}</h1>
+              <p className='my-1 font-medium text-[17px]'>{upvotedBy?.length - downvotedBy?.length}</p>
               <button className="" onClick={handleDownvote}>
                 <ChevronDownIcon className={`w-10  ${downvotedBy?.includes(userID) ? "text-orange-500" : "text-gray-700"}`}/>
               </button>
             </div>
             <div className="">  
-              <h1 className='text-gray-800 pr-4 whitespace-pre-line'>{body}</h1>
+              {
+                isEditing ? (
+                  <>
+                    <textarea value={editingBody} onChange={e => setEditingBody(e.target.value)} placeholder="Enter atleast 30 characters" className="w-full py-1.5 px-2 outline outline-1   rounded-default h-52 resize-none placeholder:text-sm" />
+                    <div className="flex mb-5">
+                      <button onClick={handleEditQuestion} className="text-sm rounded-default py-2 px-7 bg-cta text-white font-medium mr-2">Publish</button>
+                      <button onClick={e => setIsEditing(false)} className="text-sm rounded-default py-2.5 px-7 outline outline-cta bg-cta bg-opacity-10 text-cta font-medium">Cancel</button>
+
+                    </div>
+                  </>
+                  ) : (
+                  <p className='text-gray-800 pr-4 whitespace-pre-line'>{body}</p>
+                )
+              }
               <div className="flex mt-2">
                 <Tag tagName={"html"} size={'xl'} />
                 <Tag tagName={"react"} size='xl' />
               </div>
               <div className="flex justify-between mt-1.5 pr-4">
-                <div className="flex place-items-end">
-                  <button className='text-[13px] font-medium text-gray-700'>Share</button>
-                  <button className='text-[13px] font-medium text-gray-700 mx-2'>Edit</button>
-                  <button className='text-[13px] font-medium text-gray-700'>Delete</button>
-                </div>
-                <UserQuestionDetail url={url} username={username} background={true}/>
+                {
+                  authorID === userID ? (
+
+                  <div className="flex place-items-end">
+                    <button className='text-[13px] font-medium text-gray-700'>Share</button>
+                    <button onClick={e => setIsEditing(true)} className='text-[13px] font-medium text-gray-700 mx-2'>Edit</button>
+                    <button className='text-[13px] font-medium text-gray-700'>Delete</button>
+                  </div>
+                  ) : <div className=""></div>
+                }
+                <UserQuestionDetail url={url} createdAt={createdAt} updatedAt={updatedAt} username={username} background={true}/>
               </div>
             </div>
           </div>
@@ -164,6 +222,7 @@ const SinglePost = () => {
         </div>
         <TagsBar />
       </div>
+      <Toaster position="bottom-right" />
     </div>
   )
 }

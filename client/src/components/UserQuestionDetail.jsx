@@ -2,14 +2,19 @@ import React from 'react'
 import Moment from 'react-moment'
 import { Link } from 'react-router-dom'
 
-const UserQuestionDetail = ({url, username, background, createdAt}) => {
+const UserQuestionDetail = ({url, username, background, createdAt, updatedAt}) => {
   return (
     <div className={`${background ? "bg-cta bg-opacity-10 py-2 outline outline-1 outline-cta" : ""}`}>
       <div className="px-2">
         <div className="flex">
           <img className={`object-contain ${background ? 'h-[40px]' : "h-[35px]"}`} src={url} alt="" />
           <div className="text-xs ml-2">
-            <p className="text-gray-600">asked <Moment fromNow>{createdAt}</Moment> by</p>
+            <p className="text-gray-600">{background ? 'answered' : 'asked'} <Moment fromNow>{createdAt}</Moment></p>
+            {
+              updatedAt && <p className="text-gray-600">updated <Moment fromNow>{updatedAt}</Moment></p>
+              
+            }
+
             <Link to={`/users/${username}`} className="text-cta">{username}</Link>
           </div>
         </div>
