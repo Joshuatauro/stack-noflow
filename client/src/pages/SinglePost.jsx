@@ -27,8 +27,6 @@ const SinglePost = () => {
 
   const [answer, setAnswer] = useState('')
 
-  
-
   useEffect(() => {
     const getQuestionData = async() => {
       const { data } = await axios.get(`/api/questions/${id}`, {withCredentials: true} )

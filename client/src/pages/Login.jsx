@@ -15,8 +15,13 @@ const Login = () => {
     e.preventDefault()
     const response = await login(email, password)
     if(response.data.status === "Success") {
-      toast.success(response.data.message, {
-        icon: <CheckCircleIcon className='h-44' />,
+      toast(response.data.message, {
+        icon: <CheckCircleIcon className='h-6' />,
+        style: {
+          backgroundColor: "#22C55E",
+          color: "#fff"
+        },
+        duration: 2500
       })
       setTimeout(() => {
         return navigate("/feed")
@@ -39,10 +44,7 @@ const Login = () => {
     const response = await login("guestuser@gmail.com", "password123")
     if(response.data.status === "Success") {
       toast.success(response.data.message, {
-        iconTheme: {
-          primary: "#22C55E",
-          
-        },
+        icon: <CheckCircleIcon className='h-6' />,
         style: {
           backgroundColor: "#22C55E",
           color: "#fff"
@@ -53,9 +55,7 @@ const Login = () => {
       }, "2500")
     } else {
       toast.error(response.data.message, {
-        iconTheme: {
-          primary: "#EF4444"
-        },
+        icon: <XCircleIcon className='h-6' />,
         style: {
           backgroundColor: "#EF4444",
           color: "#fff"

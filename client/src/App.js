@@ -8,6 +8,7 @@ import TagsBar from './components/TagsBar';
 import SinglePost from './pages/SinglePost';
 import Login from './pages/Login'
 import Publish from './pages/Publish';
+import Signup from './pages/Signup';
 
 const FeedRoutes = () => {
   return (
@@ -60,6 +61,7 @@ const App = () => {
           <Route path="/feed" element={<FeedRoutes />} />
           <Route path="/question/:id" element={<QuestionRoute />} />
           <Route path="/login" element={<Login />} />
+          <Route path="signup" element={<Signup />} />
           <Route path="/publish" element={<PostRoute />} />
         </Routes> 
       </BrowserRouter>

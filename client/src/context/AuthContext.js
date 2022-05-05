@@ -35,7 +35,14 @@ export const AuthProvider = ({children}) => {
   }
 
   const signup = async(email, username, password) => {
-    const { data } = await axios.post('/api/auth/signup', { email, password, username }, { withCredentials: true })
+    try{
+
+      const response = await axios.post('/api/auth/signup', { email, password, username }, { withCredentials: true })
+      setIsLoggedIn(response.data.status === "Success" ? true : false)
+      setUserID(response.data.userID)
+    } catch(err) {
+      return err.response
+    }
   }
 
   return(

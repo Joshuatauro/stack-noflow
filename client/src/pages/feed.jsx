@@ -2,30 +2,39 @@ import React, { useEffect, useState } from 'react'
 import Navbar from '../components/Navbar'
 import PostPreview from '../components/PostPreview'
 import axios from '../axios'
-import { Link } from 'react-router-dom'
+import { Link, useSearchParams } from 'react-router-dom'
 import toast, {Toaster} from 'react-hot-toast'
+import { InformationCircleIcon, XCircleIcon } from '@heroicons/react/outline'
 
 const Feed = () => {
   const [questions, setQuestions] = useState([])
   const [page, setPage] = useState(0)
+  const [searchParams] = useSearchParams()
+  searchParams.get("sort")
 
   useEffect(() => {
     const fetchPosts = async() => {
-      const { data } = await axios.get(`/api/questions/`)
+      const { data } = await axios.get(`/api/questions?sort=${searchParams.get("sort")}`)
       setQuestions(data.questions)
       setPage(prev => prev+1)
     }
+    console.log('this')
 
     fetchPosts()
-  }, [])
+  }, [searchParams])
 
   const getNextPage = async() => {
-    const { data } = await axios.get(`/api/questions?page=${page}`)
-    console.log(data.questions)
+    const { data } = await axios.get(`/api/questions?page=${page}&?sort=${searchParams.get("sort")}`)
+    console.log(data)
     setQuestions([...questions, ...data.questions])
     setPage(prev => prev+1)
-    toast.success('Fetching', {
-      
+    toast(data.message, {
+      icon: <InformationCircleIcon className='h-6' />,
+      style: {
+        backgroundColor: "#0A95FF",
+        color: "#fff"
+      },
+      duration: 2500
     })
   }
 
@@ -36,24 +45,21 @@ const Feed = () => {
         <div className="flex items-center justify-between">
           <h1 className="text-[24px] font-medium text-gray-800 mr-2">All Questions</h1>
           <Link to="/publish" className="bg-cta px-5 py-3 text-sm font-medium min-w-max text-white rounded-default place-self-start ">
-            Ask Question
+            Ask Question 
           </Link>
         </div>
         <div className="flex justify-end">
 
           <ul className="flex mt-5">
-            <li className="bg-cta-fade py-1.5 px-4 o outline outline-1 outline-cta flex items-center justify-center rounded-tl-md rounded-bl-md  text-cta-fade-text">
-              <h1 className="text-sm">Hot</h1>
-            </li>
-            <li className="bg-white text-cta py-1.5 px-4 outline outline-1 outline-cta flex items-center justify-center">
+            <Link to={`/feed`} className={`${searchParams.get("sort") ? 'text-cta' : 'text-cta-fade-text bg-cta-fade'} py-1.5 px-4 o outline outline-1 outline-cta flex items-center justify-center rounded-tl-default rounded-bl-default  `}>
               <h1 className="text-sm">New</h1>
-            </li>
-            <li className="bg-white text-cta py-1.5 px-4 outline outline-1 outline-cta flex items-center justify-center">
+            </Link>
+            <Link to={`/feed?sort=top`} className={`${searchParams.get("sort") === 'top' ? 'text-cta-fade-text bg-cta-fade' : ' text-cta '} py-1.5 px-4 o outline outline-1 outline-cta flex items-center justify-center `}>
               <h1 className="text-sm">Top</h1>
-            </li>
-            <li className="bg-white text-cta py-1.5 px-4 outline outline-1 outline-cta flex items-center justify-center rounded-tr-md rounded-br-md  ">
-              <h1 className="text-sm">Votes</h1>
-            </li>
+            </Link>
+            <Link to={`/feed?sort=views`} className={`${searchParams.get("sort") === 'views' ? 'text-cta-fade-text bg-cta-fade' : ' text-cta '} py-1.5 px-4 o outline outline-1 outline-cta flex items-center justify-center rounded-br-default rounded-tr-default`}>
+              <h1 className="text-sm">Views</h1>
+            </Link>
           </ul>
         </div>
       </div>
