@@ -210,7 +210,7 @@ const SinglePost = () => {
             </ul>
           </div>
           {
-            answers.map(({answer_id,url, body, username, created_at, updated_at, upvoted_by, downvoted_by, user_id}) => <AnswerBody answerID={answer_id} url={url} username={username} upvotedBy={upvoted_by} downvotedBy={downvoted_by} body={body} ownerID={user_id} />)
+            answers.map(({answer_id,url, body, username, created_at, updated_at, upvoted_by, downvoted_by, user_id}) => <AnswerBody answerID={answer_id} url={url} username={username} upvotedBy={upvoted_by} downvotedBy={downvoted_by} body={body} ownerID={user_id} updated={updated_at} created={created_at} />)
           }
 
 
