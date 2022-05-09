@@ -9,8 +9,9 @@ import UserQuestionDetail from '../components/UserQuestionDetail'
 import { AuthContext } from '../context/AuthContext'
 import Moment from 'react-moment'
 import toast, { Toaster } from 'react-hot-toast'
-
+import { useNavigate } from 'react-router-dom'
 const SinglePost = () => {
+  const navigate = useNavigate()
   const { userID, username: owner_username, url: owner_url } = useContext(AuthContext)
   const { id } = useParams()
 
@@ -66,7 +67,7 @@ const SinglePost = () => {
     const answerDets = data.answerDetails
     answerDets.username = owner_username
     answerDets.url = owner_url
-
+    console.log(data.answerDetails)
     setAnswers([...answers, answerDets])
     setAnswer('')
   }
@@ -129,6 +130,63 @@ const SinglePost = () => {
     }
   }
 
+  const handleDeleteAnswer = async(aID) => {
+
+    if(window.confirm("Are you sure you wanna delete the answer?")) {
+      try{
+
+        const { data } = await axios.get(`/api/answers/${aID}/delete`, { withCredentials: true })
+        if(data.status === "Success") {
+          setAnswers(answers.filter(ans => ans.id !== aID))
+          toast.success(data.message, {
+            icon: <CheckCircleIcon className='h-6' />,
+            style: {
+              backgroundColor: "#22C55E",
+              color: "#fff"
+            }
+          })
+        }
+      } catch(err) {
+
+      }
+    }
+  }
+
+  const handleDeleteQuestion = async() => {
+    if(window.confirm("Are you sure you want to delete this question? This action is non-reversible")) {
+      try {
+        const { data } = await axios.delete(`/api/questions/${id}/delete`, { withCredentials: true })
+        if(data.status === "Success") {
+          toast.success(data.message, {
+            icon: <CheckCircleIcon className='h-6' />,
+            style: {
+              backgroundColor: "#22C55E",
+              color: "#fff"
+            },
+            duration: 2500
+          })
+          setTimeout(() => {
+            navigate('/feed')
+          }, 2000);
+        }
+      } catch(err) {
+
+      }
+    }
+  }
+
+  const handleCopyToClipboard = async() => {
+    navigator.clipboard.writeText(window.location.href)
+    toast.success('Successfully copied the url to clipboard!', {
+      icon: <CheckCircleIcon className='h-6' />,
+      style: {
+        backgroundColor: "#22C55E",
+        color: "#fff"
+      },
+      duration: 2500
+    })
+  }
+
   return (
     <div className="border-l-2  min-h-custom">
       <div className="pl-4 pr-6 m-auto pt-5 pb-3 border-b-2 ">
@@ -185,9 +243,9 @@ const SinglePost = () => {
                   authorID === userID ? (
 
                   <div className="flex place-items-end">
-                    <button className='text-[13px] font-medium text-gray-700'>Share</button>
+                    <button onClick={handleCopyToClipboard} className='text-[13px] font-medium text-gray-700'>Share</button>
                     <button onClick={e => setIsEditing(true)} className='text-[13px] font-medium text-gray-700 mx-2'>Edit</button>
-                    <button className='text-[13px] font-medium text-gray-700'>Delete</button>
+                    <button onClick={handleDeleteQuestion} className='text-[13px] font-medium text-gray-700'>Delete</button>
                   </div>
                   ) : <div className=""></div>
                 }
@@ -197,26 +255,15 @@ const SinglePost = () => {
           </div>
           <div className="flex justify-between items-center px-4 mt-5 mb-2">
             <h1 className="text-xl font-semibold">{answers.length} Answers</h1>
-            <ul className="flex items-center ">
-              <li className="bg-cta-fade py-1.5 px-4 o outline outline-1 outline-cta flex items-center justify-center rounded-tl-md rounded-bl-md  text-cta-fade-text">
-                <h1 className="text-sm">Newest</h1>
-              </li>
-              <li className="bg-white text-cta py-1.5 px-4 outline outline-1 outline-cta flex items-center justify-center">
-                <h1 className="text-sm">Oldest</h1>
-              </li>
-              <li className="bg-white text-cta py-1.5 px-4 outline outline-1 outline-cta flex items-center justify-center rounded-tr-md rounded-br-md  ">
-                <h1 className="text-sm">Votes</h1>
-              </li>
-            </ul>
           </div>
           {
-            answers.map(({answer_id,url, body, username, created_at, updated_at, upvoted_by, downvoted_by, user_id}) => <AnswerBody answerID={answer_id} url={url} username={username} upvotedBy={upvoted_by} downvotedBy={downvoted_by} body={body} ownerID={user_id} updated={updated_at} created={created_at} />)
+            answers.map(({id,url, body, username, created_at, updated_at, upvoted_by, downvoted_by, user_id}) => <AnswerBody key={id} answerID={id} url={url} username={username} upvotedBy={upvoted_by} downvotedBy={downvoted_by} body={body} ownerID={user_id} updated={updated_at} created={created_at} deleteAnswer={handleDeleteAnswer} />)
           }
 
 
           <div className="px-4 mb-5 mt-2">
             <h1 className="text-xl font-medium">Your answer</h1>
-            <textarea value={answer} onChange={e => setAnswer(e.target.value)} className="w-full h-40 outline outline-[1.5px] text-sm text-gray-800 px-2 py-2 mt-2 resize-y rounded-default outline-gray-300 focus:outline-gray-600"></textarea>
+            <textarea value={answer} onChange={e => setAnswer(e.target.value)} className="w-full h-40 outline outline-[1.5px]  text-gray-800 px-2 py-2 mt-2 resize-y rounded-default outline-gray-300 focus:outline-gray-600"></textarea>
             <button type='submit' onClick={submitAnswer} className="rounded-default bg-cta text-white py-2 px-10 text-sm font-medium">Submit Answer</button>
           </div>
         </div>

@@ -1,4 +1,4 @@
-import { ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/outline'
+import { CheckCircleIcon, ChevronDownIcon, ChevronUpIcon } from '@heroicons/react/outline'
 import axios from '../axios'
 import React, { useContext, useState } from 'react'
 import { AuthContext } from '../context/AuthContext'
@@ -6,7 +6,7 @@ import Tag from './Tag'
 import UserQuestionDetail from './UserQuestionDetail'
 import toast, { Toaster } from 'react-hot-toast'
 
-const AnswerBody = ({url, upvotedBy, downvotedBy, children, body, username, ownerID, answerID, updated, created}) => {
+const AnswerBody = ({url, upvotedBy, downvotedBy, children, body, username, ownerID, answerID, updated, created, deleteAnswer}) => {
   const { userID } = useContext(AuthContext)
 
   const [answer, setAnswer] = useState(body)
@@ -51,15 +51,29 @@ const AnswerBody = ({url, upvotedBy, downvotedBy, children, body, username, owne
   const handleEditAnswer = async() => {
     try{
       const { data } = await axios.post(`/api/answers/${answerID}/edit`,{ editedBody }, { withCredentials: true })
-      console.log(data)
       setIsEditing(false)
       setAnswer(data.editedDetails.body)
-      setUpdatedAt(data.editedBody.updated_at)
+      setUpdatedAt(data.editedDetails.updated_at)
+
+      toast.success(data.message, {
+        icon: <CheckCircleIcon className='h-6' />,
+        style: {
+          backgroundColor: "#22C55E",
+          color: "#fff"
+        }
+      })
+
     } catch(err) {
       
     }
   }
   
+  // const handleDeleteAnswer = async() => {
+  //   if(window.confirm("Are you sure you want to delete this answer?")){
+  //     const {  }
+  //   }
+  //   // const choice = confirm('Are you sure you want to delete this answer?')
+  // }
 
   return (
     <div className="grid grid-cols-[0.1fr_0.9fr] py-4 border-b-2">
@@ -91,7 +105,7 @@ const AnswerBody = ({url, upvotedBy, downvotedBy, children, body, username, owne
             userID === ownerID ? (
             <div className="flex place-items-end">
               <button onClick={e => setIsEditing(true)} className='text-[13px] font-medium text-gray-700 mr-2'>Edit</button>
-              <button className='text-[13px] font-medium text-gray-700'>Delete</button>
+              <button onClick={e => deleteAnswer(answerID)} className='text-[13px] font-medium text-gray-700'>Delete</button>
             </div>
             ) : (
               <div className=""></div>
@@ -102,6 +116,7 @@ const AnswerBody = ({url, upvotedBy, downvotedBy, children, body, username, owne
           </div>
         </div>
       </div>
+      <Toaster position="bottom-right" />
     </div>
   )
 }
