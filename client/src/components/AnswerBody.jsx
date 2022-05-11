@@ -5,9 +5,15 @@ import { AuthContext } from '../context/AuthContext'
 import Tag from './Tag'
 import UserQuestionDetail from './UserQuestionDetail'
 import toast, { Toaster } from 'react-hot-toast'
+import { useParams } from 'react-router-dom'
+import Comment from './Comment'
 
-const AnswerBody = ({url, upvotedBy, downvotedBy, children, body, username, ownerID, answerID, updated, created, deleteAnswer}) => {
-  const { userID } = useContext(AuthContext)
+const AnswerBody = ({url, upvotedBy, downvotedBy, childrenComments, body, username, ownerID, answerID, updated, created, deleteAnswer}) => {
+  const { id: questionID } = useParams()
+
+  const { userID, url: userURL, username: userUsername } = useContext(AuthContext)
+
+  const [comments, setComments] = useState(childrenComments)
 
   const [answer, setAnswer] = useState(body)
   const [updatedAt, setUpdatedAt] = useState(updated)
@@ -17,6 +23,9 @@ const AnswerBody = ({url, upvotedBy, downvotedBy, children, body, username, owne
 
   const [isEditing, setIsEditing] = useState(false)
   const [editedBody, setEditedBody] = useState(body)
+
+  const [isAddingComment, setIsAddingComment] = useState('')
+  const [commentBody, setCommentBody] = useState('')
 
   const handleUpvote = async() => {
     if(upvoted?.includes(userID)) {
@@ -67,13 +76,21 @@ const AnswerBody = ({url, upvotedBy, downvotedBy, children, body, username, owne
       
     }
   }
-  
-  // const handleDeleteAnswer = async() => {
-  //   if(window.confirm("Are you sure you want to delete this answer?")){
-  //     const {  }
-  //   }
-  //   // const choice = confirm('Are you sure you want to delete this answer?')
-  // }
+
+  const handleAddComment = async() => {
+    try {
+      setIsAddingComment(false)
+      setCommentBody('')
+      const { data } = await axios.post(`/api/comments/publish`, { commentBody, answerID, questionID }, { withCredentials: true })
+      console.log(data)
+      const commentDetails = data.commentDetails
+      commentDetails.username = userUsername
+      setComments([...comments, commentDetails])
+
+    } catch(err) {
+
+    }
+  }
 
   return (
     <div className="grid grid-cols-[0.1fr_0.9fr] py-4 border-b-2">
@@ -103,7 +120,7 @@ const AnswerBody = ({url, upvotedBy, downvotedBy, children, body, username, owne
         <div className="flex justify-between mt-1.5 pr-4">
           {
             userID === ownerID ? (
-            <div className="flex place-items-end">
+            <div className="flex place-items-start">
               <button onClick={e => setIsEditing(true)} className='text-[13px] font-medium text-gray-700 mr-2'>Edit</button>
               <button onClick={e => deleteAnswer(answerID)} className='text-[13px] font-medium text-gray-700'>Delete</button>
             </div>
@@ -115,6 +132,25 @@ const AnswerBody = ({url, upvotedBy, downvotedBy, children, body, username, owne
             <UserQuestionDetail url={url} username={username} background={true} createdAt={created} updatedAt={updatedAt} />
           </div>
         </div>
+        {
+          isAddingComment && (
+            <div className="mr-4 mt-3">
+              <textarea value={commentBody} onChange={e => setCommentBody(e.target.value)} placeholder="Please enter atleast 10 characters" className="w-full rounded-default resize-y h-24 px-2 pt-2 text-sm outline outline-1"/>
+              <div className="flex mb-5">
+                <button onClick={handleAddComment} className="text-sm rounded-default py-2 px-7 bg-cta text-white font-medium mr-2">Publish</button>
+                <button onClick={e => setIsAddingComment(false)} className="text-sm rounded-default py-2.5 px-7 outline outline-cta bg-cta bg-opacity-10 text-cta font-medium">Cancel</button>
+              </div>
+            </div>
+              
+          )
+        }
+        
+        <div className="my-2">
+          {
+            comments.map(({body, username, created_at, updated_at}) => <Comment commentBody={body} username={username} createdAt={created_at} />)
+          }
+        </div>
+        <button onClick={e => setIsAddingComment(prev => !prev)} className="text-cta text-xs font-medium underline mt-2">Add comment</button>
       </div>
       <Toaster position="bottom-right" />
     </div>

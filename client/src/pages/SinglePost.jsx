@@ -55,6 +55,7 @@ const SinglePost = () => {
       const { data } = await axios.get(`/api/answers/${id}`, { withCredentials: true })
       setComments(data.comments)
       setAnswers(data.answers)
+      console.log(data.comments)
     }
 
     getQuestionData()
@@ -67,7 +68,6 @@ const SinglePost = () => {
     const answerDets = data.answerDetails
     answerDets.username = owner_username
     answerDets.url = owner_url
-    console.log(data.answerDetails)
     setAnswers([...answers, answerDets])
     setAnswer('')
   }
@@ -239,16 +239,18 @@ const SinglePost = () => {
                 <Tag tagName={"react"} size='xl' />
               </div>
               <div className="flex justify-between mt-1.5 pr-4">
+                <div className="flex place-items-start">
+                  <button onClick={handleCopyToClipboard} className='text-[13px] font-medium text-gray-700'>Share</button>
                 {
                   authorID === userID ? (
+                    <div className="flex">
 
-                  <div className="flex place-items-end">
-                    <button onClick={handleCopyToClipboard} className='text-[13px] font-medium text-gray-700'>Share</button>
                     <button onClick={e => setIsEditing(true)} className='text-[13px] font-medium text-gray-700 mx-2'>Edit</button>
                     <button onClick={handleDeleteQuestion} className='text-[13px] font-medium text-gray-700'>Delete</button>
+                    </div>
+                    ) : <div className=""></div>
+                  }
                   </div>
-                  ) : <div className=""></div>
-                }
                 <UserQuestionDetail url={url} createdAt={createdAt} updatedAt={updatedAt} username={username} background={true}/>
               </div>
             </div>
@@ -257,13 +259,14 @@ const SinglePost = () => {
             <h1 className="text-xl font-semibold">{answers.length} Answers</h1>
           </div>
           {
-            answers.map(({id,url, body, username, created_at, updated_at, upvoted_by, downvoted_by, user_id}) => <AnswerBody key={id} answerID={id} url={url} username={username} upvotedBy={upvoted_by} downvotedBy={downvoted_by} body={body} ownerID={user_id} updated={updated_at} created={created_at} deleteAnswer={handleDeleteAnswer} />)
+            answers.map(({id,url, body, username, created_at, updated_at, upvoted_by, downvoted_by, user_id}) => <AnswerBody key={id} answerID={id} url={url} username={username} upvotedBy={upvoted_by} downvotedBy={downvoted_by} body={body} ownerID={user_id} updated={updated_at} created={created_at} deleteAnswer={handleDeleteAnswer} childrenComments={comments.filter(comment => comment.answer_id === id)} />)
           }
 
 
           <div className="px-4 mb-5 mt-2">
             <h1 className="text-xl font-medium">Your answer</h1>
-            <textarea value={answer} onChange={e => setAnswer(e.target.value)} className="w-full h-40 outline outline-[1.5px]  text-gray-800 px-2 py-2 mt-2 resize-y rounded-default outline-gray-300 focus:outline-gray-600"></textarea>
+            <textarea value={answer} onChange={e => setAnswer(e.target.value)} className="w-full h-40 outline outline-1 px-2 py-2 mt-2 resize-y rounded-default"></textarea>
+
             <button type='submit' onClick={submitAnswer} className="rounded-default bg-cta text-white py-2 px-10 text-sm font-medium">Submit Answer</button>
           </div>
         </div>
