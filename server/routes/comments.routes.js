@@ -2,7 +2,7 @@ const router = require("express").Router()
 const db = require("../dbConfig")
 
 router.post("/publish", async(req, res) => {
-  const comment = req.body.comment
+  const comment = req.body.commentBody
   const answerID = req.body.answerID
   const questionID = req.body.questionID
 
