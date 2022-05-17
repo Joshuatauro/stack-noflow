@@ -136,9 +136,9 @@ const AnswerBody = ({url, upvotedBy, downvotedBy, childrenComments, body, userna
           isAddingComment && (
             <div className="mr-4 mt-3">
               <textarea value={commentBody} onChange={e => setCommentBody(e.target.value)} placeholder="Please enter atleast 10 characters" className="w-full rounded-default resize-y h-24 px-2 pt-2 text-sm outline outline-1"/>
-              <div className="flex mb-5">
+              <div className="flex mt-1 mb-5">
                 <button onClick={handleAddComment} className="text-sm rounded-default py-2 px-7 bg-cta text-white font-medium mr-2">Publish</button>
-                <button onClick={e => setIsAddingComment(false)} className="text-sm rounded-default py-2.5 px-7 outline outline-cta bg-cta bg-opacity-10 text-cta font-medium">Cancel</button>
+                <button onClick={e => setIsAddingComment(false)} className="text-sm rounded-default px-7 border-2 border-cta  outline-cta bg-cta bg-opacity-10 text-cta font-medium">Cancel</button>
               </div>
             </div>
               

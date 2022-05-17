@@ -9,6 +9,7 @@ import SinglePost from './pages/SinglePost';
 import Login from './pages/Login'
 import Publish from './pages/Publish';
 import Signup from './pages/Signup';
+import User from './pages/User';
 
 const FeedRoutes = () => {
   return (
@@ -51,6 +52,19 @@ const PostRoute = () => {
   )
 }
 
+const UserRoute = () => {
+  return(
+    <>
+      <Navbar />
+      <div className="grid grid-cols-layout ">
+        <SideNav />
+        <User />
+        <TagsBar />
+      </div>
+    </>
+  )
+}
+
 
 const App = () => {
   return (
@@ -63,6 +77,7 @@ const App = () => {
           <Route path="/login" element={<Login />} />
           <Route path="signup" element={<Signup />} />
           <Route path="/publish" element={<PostRoute />} />
+          <Route path="/users/:username" element={<UserRoute />} />
         </Routes> 
       </BrowserRouter>
     </div>

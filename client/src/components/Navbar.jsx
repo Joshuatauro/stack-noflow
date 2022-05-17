@@ -12,7 +12,7 @@ const Navbar = () => {
   }, [])
 
   return (
-    <nav className="w-full border-b bg-white sticky  top-0 border-cta border-b-gray-500 ">
+    <nav className="w-full border-b bg-white sticky  z-50 top-0 border-cta border-b-gray-500 ">
       <div className=" px-6  h-16 flex items-center  m-auto">
         <div className="flex items-center w-full mr-2 ">
           <div className="flex items-center flex-1">
