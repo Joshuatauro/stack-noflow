@@ -3,7 +3,7 @@ import { GlobeIcon, TagIcon, UserIcon } from '@heroicons/react/outline'
 import { Link } from 'react-router-dom'
 const SideNav = ({tab}) => {
   return (
-    <div className="mt-5 sticky top-[85px] h-min ">
+    <div className="pt-5 sticky top-[85px] dark:bg-dark ">
       <div className="">
         <ul className="sticky top-[100px]">
           <Link to="/feed">

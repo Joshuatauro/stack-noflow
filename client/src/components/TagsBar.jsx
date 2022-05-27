@@ -4,7 +4,7 @@ import Tag from './Tag'
 
 const TagsBar = () => {
   return (
-    <div className="w-full sticky top-[65px] min-h-custom h-min">
+    <div className="w-full sticky top-[65px] min-h-custom h-min dark:bg-dark dark:text-white">
       <div className="w-10/12 m-auto pt-5 flex flex-col justify-between min-h-custom pb-4">
         <div className="">
           <h1 className="font-normal mb-5 text-2xl">Some of our tags</h1>

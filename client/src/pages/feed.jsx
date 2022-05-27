@@ -40,10 +40,10 @@ const Feed = () => {
 
 
   return (
-    <div className="border-x-2 min-h-custom ">
-      <div className="px-4 m-auto py-5 border-b-2 ">
+    <div className="border-x-2 min-h-custom dark:bg-dark dark:text-white dark:border-dark-fade">
+      <div className="px-4 m-auto py-5 border-b-2 dark:border-gray-700 ">
         <div className="flex items-center justify-between">
-          <h1 className="text-[24px] font-medium text-gray-800 mr-2">All Questions</h1>
+          <h1 className="text-[24px] font-medium text-gray-800 dark:text-white mr-2">All Questions</h1>
           <Link to="/publish" className="bg-cta px-5 py-3 text-sm font-medium min-w-max text-white rounded-default place-self-start ">
             Ask Question 
           </Link>
@@ -51,13 +51,13 @@ const Feed = () => {
         <div className="flex justify-end">
 
           <ul className="flex mt-5">
-            <Link to={`/feed`} className={`${searchParams.get("sort") ? 'text-cta' : 'text-cta-fade-text bg-cta-fade'} py-1.5 px-4 o outline outline-1 outline-cta flex items-center justify-center rounded-tl-default rounded-bl-default  `}>
+            <Link to={`/feed`} className={`${searchParams.get("sort") ? 'text-cta' : 'text-cta-fade-text dark:text-dark-cta-fade-text bg-cta-fade dark:bg-dark-cta-fade'} py-1.5 px-4 o outline outline-1 outline-cta flex items-center justify-center rounded-tl-default rounded-bl-default  `}>
               <h1 className="text-sm">New</h1>
             </Link>
-            <Link to={`/feed?sort=top`} className={`${searchParams.get("sort") === 'top' ? 'text-cta-fade-text bg-cta-fade' : ' text-cta '} py-1.5 px-4 o outline outline-1 outline-cta flex items-center justify-center `}>
+            <Link to={`/feed?sort=top`} className={`${searchParams.get("sort") === 'top' ? 'text-cta-fade-text dark:text-dark-cta-fade-text bg-cta-fade dark:bg-dark-cta-fade' : ' text-cta '} py-1.5 px-4 o outline outline-1 outline-cta flex items-center justify-center `}>
               <h1 className="text-sm">Top</h1>
             </Link>
-            <Link to={`/feed?sort=views`} className={`${searchParams.get("sort") === 'views' ? 'text-cta-fade-text bg-cta-fade' : ' text-cta '} py-1.5 px-4 o outline outline-1 outline-cta flex items-center justify-center rounded-br-default rounded-tr-default`}>
+            <Link to={`/feed?sort=views`} className={`${searchParams.get("sort") === 'views' ? 'text-cta-fade-text dark:text-dark-cta-fade-text bg-cta-fade dark:bg-dark-cta-fade' : ' text-cta '} py-1.5 px-4 o outline outline-1 outline-cta flex items-center justify-center rounded-br-default rounded-tr-default`}>
               <h1 className="text-sm">Views</h1>
             </Link>
           </ul>

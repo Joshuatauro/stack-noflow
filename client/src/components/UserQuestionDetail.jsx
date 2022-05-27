@@ -9,7 +9,7 @@ const UserQuestionDetail = ({url, username, background, createdAt, updatedAt}) =
         <div className="flex">
           <img className={`object-contain ${background ? 'h-[40px]' : "h-[35px]"}`} src={url} alt="" />
           <div className="text-xs ml-2">
-            <p className="text-gray-600">{background ? 'answered' : 'asked'} <Moment format='[on] MMM DD, YYYY [at] h:mma '>{createdAt}</Moment></p>
+            <p className="text-gray-600 dark:text-gray-400">{background ? 'answered' : 'asked'} <Moment format='[on] MMM DD, YYYY [at] h:mma '>{createdAt}</Moment></p>
             {
               updatedAt && <p className="text-gray-600">updated <Moment format='[on] MMM DD, YYYY [at] h:mma '>{updatedAt}</Moment></p>
               
