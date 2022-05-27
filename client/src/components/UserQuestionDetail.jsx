@@ -15,7 +15,7 @@ const UserQuestionDetail = ({url, username, background, createdAt, updatedAt}) =
               
             }
 
-            <Link to={`/users/${username}`} className="text-cta">{username}</Link>
+            <Link to={`/user/${username}`} className="text-cta">{username}</Link>
           </div>
         </div>
       </div>

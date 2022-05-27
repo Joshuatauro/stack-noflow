@@ -15,9 +15,9 @@ const User = () => {
   useEffect(() => {
     const getUserDetails = async() => {
       const { data } = await axios.get(`/api/users/${username}`)
-      console.log(data)
       setQuestions(data.questions)
       setAnswers(data.answers)
+      setUserDetails(data.userDetails)
     } 
 
     getUserDetails()
@@ -27,18 +27,18 @@ const User = () => {
     <div className="border-x-2  min-h-custom">
       <div className="px-4 m-auto py-5">
         <div className="flex">
-          <img className=" object-contain h-28 rounded-default" src="https://www.gravatar.com/avatar/9005de28156b4c054a933361a06c8aa4?d=identicon" alt="" />
-          <div className="ml-3">
+          <img className=" object-contain h-28 rounded-default" src={userDetails?.url} alt="" />
+          <div className="ml-3 w-full">
           <div className="flex items-end">
-            <h1 className="text-3xl font-medium text-gray-800 ">Alex Jones</h1>
+            <h1 className="text-3xl font-medium text-gray-800 ">{userDetails?.username}</h1>
             <a className='text-[14px] mx-2 text-cta underline' href="https://joshuatauro.vercel.app" target="_blank" rel="noreferrer">Portfolio</a>
               <a className='text-[14px] text-cta underline' href="https://joshuatauro.vercel.app" target="_blank" rel="noreferrer">Github</a>
             </div>
-            <div className="flex w-full mt-2 mb-2 border-b-2">
+            <div className="flex items-center w-full mt-1 mb-3 ">
                 <CalendarIcon className="h-5 mr-1" />
-                <p className='text-[14px]'>Joined 22 days ago</p>              
+                <Moment fromNow className="text-[13px]">{userDetails?.joined_at}</Moment>              
             </div>
-            <p className="text-[14px] text-gray-700">Lorem ipsum, dolor sit amet consectetur adipisicing elit. Qui nobis ex, ipsum, ipsam aliquam fugit deserunt itaque, aspernatur non debitis tempora similique nemo dolore harum. Accusamus modi nesciunt maiores qui.</p>
+            <p className="text-[14px] text-gray-700">{userDetails?.about ? userDetails.about : 'Hey there, welcome to my profile'}</p>
           </div>
         </div>
         <div className="mt-5">

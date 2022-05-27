@@ -1,28 +1,35 @@
 import React from 'react'
 import { GlobeIcon, TagIcon, UserIcon } from '@heroicons/react/outline'
-const SideNav = () => {
+import { Link } from 'react-router-dom'
+const SideNav = ({tab}) => {
   return (
     <div className="mt-5 sticky top-[85px] h-min ">
       <div className="">
         <ul className="sticky top-[100px]">
-          <li className=" py-1.5 bg-gray-200 border-r-4 border-cta mb-2 ">
-            <div className="flex items-center w-9/12 m-auto">
-              <GlobeIcon className="h-6 mr-1 w-6" />
-              <h1 className="text-sm">Questions</h1>
+          <Link to="/feed">
+            <div to="/feed" className={` py-1.5 mb-2 ${tab === 1 ? 'bg-gray-200 border-r-4 border-cta' : ''}`}>
+              <div className="flex items-center w-9/12 m-auto">
+                <GlobeIcon className="h-6 mr-1 w-6" />
+                <h1 className="text-sm">Questions</h1>
+              </div>
             </div>
-          </li>
-          <li className=" py-1.5 mb-2 ">
-            <div className="flex items-center w-9/12 m-auto">
-              <TagIcon className="h-6 mr-1 w-6" />
-              <h1 className="text-sm">Tags</h1>
+          </Link>
+          <Link to="/tags">
+            <div className={` py-1.5 mb-2 ${tab === 2 ? 'bg-gray-200 border-r-4 border-cta' : ''}`}>
+              <div className="flex items-center w-9/12 m-auto">
+                <TagIcon className="h-6 mr-1 w-6" />
+                <h1 className="text-sm">Tags</h1>
+              </div>
             </div>
-          </li>
-          <li className=" py-1.5 mb-2 ">
-            <div className="flex items-center w-9/12 m-auto">
-              <UserIcon className="h-6 mr-1 w-6" />
-              <h1 className="text-sm">Users</h1>
+          </Link>
+          <Link to="/users">
+            <div className={` py-1.5 mb-2 ${tab === 3 ? 'bg-gray-200 border-r-4 border-cta' : ''}`}>
+              <div className="flex items-center w-9/12 m-auto">
+                <UserIcon className="h-6 mr-1 w-6" />
+                <h1 className="text-sm">Users</h1>
+              </div>
             </div>
-          </li>
+          </Link>
         </ul>
       </div>
     </div>

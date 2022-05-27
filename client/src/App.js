@@ -10,13 +10,13 @@ import Login from './pages/Login'
 import Publish from './pages/Publish';
 import Signup from './pages/Signup';
 import User from './pages/User';
-
+import Users from './pages/Users'
 const FeedRoutes = () => {
   return (
     <>
       <Navbar />
       <div className="grid grid-cols-layout ">
-        <SideNav />
+        <SideNav tab={1} />
           <Routes>
             <Route path='/' element={<Feed />} />
           </Routes>
@@ -32,14 +32,14 @@ const QuestionRoute = () => {
       <Navbar />
 
       <div className="grid grid-cols-new-layout ">
-        <SideNav />
+        <SideNav tab={1} />
         <SinglePost />
       </div>
     </>
   )
 }
 
-const PostRoute = () => {
+const PublishRoute = () => {
   return(
     <>
       <Navbar />
@@ -55,10 +55,23 @@ const PostRoute = () => {
 const UserRoute = () => {
   return(
     <>
-      <Navbar />
+      <Navbar/>
       <div className="grid grid-cols-layout ">
-        <SideNav />
-        <User />
+        <SideNav tab={3} />
+          <User />
+        <TagsBar />
+      </div>
+    </>
+  )
+}
+
+const UsersRoute = () => {
+  return (
+    <>
+      <Navbar/>
+      <div className="grid grid-cols-layout ">
+        <SideNav tab={3} />
+          <Users />
         <TagsBar />
       </div>
     </>
@@ -76,8 +89,9 @@ const App = () => {
           <Route path="/question/:id" element={<QuestionRoute />} />
           <Route path="/login" element={<Login />} />
           <Route path="signup" element={<Signup />} />
-          <Route path="/publish" element={<PostRoute />} />
-          <Route path="/users/:username" element={<UserRoute />} />
+          <Route path="/publish" element={<PublishRoute />} />
+          <Route path="/user/:username" element={<UserRoute />} />
+          <Route path="/users" element={<UsersRoute />} />
         </Routes> 
       </BrowserRouter>
     </div>
