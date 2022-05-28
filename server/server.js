@@ -35,11 +35,12 @@ const authChecker = async(req, res, next) => {
 
 app.use(authChecker)
 
-app.use("/api/auth", require('./routes/users.routes'))
+app.use("/api/auth", require('./routes/auth.routes'))
 app.use("/api/questions", require('./routes/questions.routes'))
 app.use('/api/answers', require('./routes/answers.routes'))
 app.use('/api/comments', require('./routes/comments.routes'))
 app.use('/api/voting', require('./routes/voting.routes'))
+app.use('/api/users', require('./routes/users.routes'))
 
 const PORT = process.env.PORT || 5000
 

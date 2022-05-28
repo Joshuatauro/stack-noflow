@@ -4,7 +4,12 @@ CREATE TABLE users (
   email VARCHAR NOT NULL UNIQUE ,
   hashed_password VARCHAR NOT NULL,
   url VARCHAR NOT NULL,
-  joined_at TIMESTAMP NOT NULL
+  joined_at TIMESTAMP NOT NULL,
+  title VARCHAR(60),
+  about VARCHAR,
+  location VARCHAR,
+  portfolio VARCHAR,
+  github VARCHAR,
 )
 
 CREATE TABLE questions (
