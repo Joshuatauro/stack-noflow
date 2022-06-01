@@ -12,7 +12,7 @@ module.exports = {
         'cta': "#0A95FF",
         'cta-fade': "#E1ECF4",
         'cta-fade-text': "#2C5877",
-        'dark': "#121212",
+        'dark': "#1E2028",
         'dark-fade': '#363636',
         'dark-text': "#c4c4c4",
         'dark-cta-fade': "#13283F",

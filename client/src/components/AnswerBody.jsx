@@ -98,7 +98,7 @@ const AnswerBody = ({url, upvotedBy, downvotedBy, childrenComments, body, userna
         <button className="outline-none" onClick={handleUpvote} >
           <ChevronUpIcon className={`w-10  ${upvoted.includes(userID) ? "text-orange-500" : "text-gray-700"}`} />
         </button>
-        <p className='my-1 font-medium text-[17px]'>{upvoted.length - downvoted?.length}</p>
+        <p className='my-1 font-medium text-[17px] dark:text-white'>{upvoted.length - downvoted?.length}</p>
         <button className="" onClick={handleDownvote}>
           <ChevronDownIcon className={`w-10  ${downvoted?.includes(userID) ? "text-orange-500" : "text-gray-700"}`}/>
         </button>
@@ -114,7 +114,7 @@ const AnswerBody = ({url, upvotedBy, downvotedBy, childrenComments, body, userna
               </div>
             </div>
           ) : (
-            <p className='text-gray-800 whitespace-pre-line'>{answer}</p>
+            <p className='text-gray-800 whitespace-pre-line dark:text-dark-text'>{answer}</p>
           )
         }
         <div className="flex justify-between mt-1.5 pr-4">
@@ -145,7 +145,7 @@ const AnswerBody = ({url, upvotedBy, downvotedBy, childrenComments, body, userna
           )
         }
         
-        <div className="my-2">
+        <div className="my-2 pr-4">
           {
             comments.map(({body, username, created_at, updated_at}) => <Comment commentBody={body} username={username} createdAt={created_at} />)
           }

@@ -48,7 +48,7 @@ const Navbar = () => {
           ) : (
           <div className="flex flex-1 justify-end items-center min-w-max ">
             <Link to="/signup" className="text-sm font-medium flex items-center outline outline-1 text-cta bg-cta bg-opacity-10 rounded-md h-12 px-5 mr-2">Sign Up</Link>
-            <Link to="/login" className="text-sm flex items-center font-medium outline bg-cta outline-2 text-white rounded-md h-12 px-5 ">Log In</Link>
+            <Link to="/login" className="text-sm flex items-center font-medium outline bg-cta outline-2 text-white rounded-md h-12 px-5 dark:outline-none">Log In</Link>
           </div>
           )
         }
