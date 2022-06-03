@@ -208,8 +208,8 @@ const SinglePost = () => {
         </div>
       </div>
       <div className="grid grid-cols-inner-layout ">
-        <div className="border-r-2 pt-3 ">
-          <div className="grid grid-cols-[0.1fr_0.9fr] pb-4 border-b-2">
+        <div className="border-r-2 pt-3 dark:border-dark-fade ">
+          <div className="grid grid-cols-[0.1fr_0.9fr] pb-4 border-b-2 dark:border-dark-fade">
             <div className='flex flex-col mt-5 h-fit items-center '>
               <button className="outline-none" onClick={handleUpvote}>
                 <ChevronUpIcon className={`w-10  ${upvotedBy?.includes(userID) ? "text-orange-500" : "text-gray-700"}`} />
@@ -240,13 +240,13 @@ const SinglePost = () => {
               </div>
               <div className="flex justify-between mt-1.5 pr-4">
                 <div className="flex place-items-start">
-                  <button onClick={handleCopyToClipboard} className='text-[13px] dark:text-gray-300 font-medium text-gray-700'>Share</button>
+                  <button onClick={handleCopyToClipboard} className='text-[13px] dark:text-gray-400 font-medium text-gray-700'>Share</button>
                 {
                   authorID === userID ? (
                     <div className="flex">
 
-                    <button onClick={e => setIsEditing(true)} className='text-[13px] font-medium text-gray-700 mx-2'>Edit</button>
-                    <button onClick={handleDeleteQuestion} className='text-[13px] font-medium text-gray-700'>Delete</button>
+                    <button onClick={e => setIsEditing(true)} className='text-[13px] font-medium text-gray-700 dark:text-gray-400 mx-2'>Edit</button>
+                    <button onClick={handleDeleteQuestion} className='text-[13px] font-medium text-gray-700 dark:text-gray-400'>Delete</button>
                     </div>
                     ) : <div className=""></div>
                   }
@@ -265,10 +265,10 @@ const SinglePost = () => {
 
 
           <div className="px-4 mb-5 mt-2">
-            <h1 className="text-xl font-medium">Your answer</h1>
-            <textarea value={answer} onChange={e => setAnswer(e.target.value)} className="w-full h-40 outline outline-1 px-2 py-2 mt-2 resize-y rounded-default"></textarea>
+            <h1 className="text-xl font-medium dark:text-white">Your answer</h1>
+            <textarea value={answer} onChange={e => setAnswer(e.target.value)} className="w-full h-40 outline outline-1 px-2 py-2 mt-2 resize-y rounded-default dark:bg-dark dark:outline-white dark:text-gray-300"></textarea>
 
-            <button type='submit' onClick={submitAnswer} className="rounded-default bg-cta text-white py-2 px-10 text-sm font-medium">Submit Answer</button>
+            <button type='submit' onClick={submitAnswer} className="rounded-default bg-cta text-white py-2 px-10 mt-1 text-sm font-medium">Submit Answer</button>
           </div>
         </div>
         <TagsBar />

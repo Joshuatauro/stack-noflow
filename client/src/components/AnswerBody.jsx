@@ -93,7 +93,7 @@ const AnswerBody = ({url, upvotedBy, downvotedBy, childrenComments, body, userna
   }
 
   return (
-    <div className="grid grid-cols-[0.1fr_0.9fr] py-4 border-b-2">
+    <div className="grid grid-cols-[0.1fr_0.9fr] py-4 border-b-2 dark:border-dark-fade">
       <div className='flex flex-col h-fit items-center '>
         <button className="outline-none" onClick={handleUpvote} >
           <ChevronUpIcon className={`w-10  ${upvoted.includes(userID) ? "text-orange-500" : "text-gray-700"}`} />
@@ -114,15 +114,15 @@ const AnswerBody = ({url, upvotedBy, downvotedBy, childrenComments, body, userna
               </div>
             </div>
           ) : (
-            <p className='text-gray-800 whitespace-pre-line dark:text-dark-text'>{answer}</p>
+            <p className='text-gray-800 whitespace-pre-line dark:text-white'>{answer}</p>
           )
         }
         <div className="flex justify-between mt-1.5 pr-4">
           {
             userID === ownerID ? (
             <div className="flex place-items-start">
-              <button onClick={e => setIsEditing(true)} className='text-[13px] font-medium text-gray-700 mr-2'>Edit</button>
-              <button onClick={e => deleteAnswer(answerID)} className='text-[13px] font-medium text-gray-700'>Delete</button>
+              <button onClick={e => setIsEditing(true)} className='text-[13px] font-medium dark:text-gray-400 text-gray-700 mr-2'>Edit</button>
+              <button onClick={e => deleteAnswer(answerID)} className='text-[13px] font-medium text-gray-700 dark:text-gray-400'>Delete</button>
             </div>
             ) : (
               <div className=""></div>
@@ -135,7 +135,7 @@ const AnswerBody = ({url, upvotedBy, downvotedBy, childrenComments, body, userna
         {
           isAddingComment && (
             <div className="mr-4 mt-3">
-              <textarea value={commentBody} onChange={e => setCommentBody(e.target.value)} placeholder="Please enter atleast 10 characters" className="w-full rounded-default resize-y h-24 px-2 pt-2 text-sm outline outline-1"/>
+              <textarea value={commentBody} onChange={e => setCommentBody(e.target.value)} placeholder="Please enter atleast 10 characters" className="w-full rounded-default resize-y h-24 px-2 pt-2 text-sm outline outline-1 dark:bg-dark dark:outline-white dark:text-gray-300"/>
               <div className="flex mt-1 mb-5">
                 <button onClick={handleAddComment} className="text-sm rounded-default py-2 px-7 bg-cta text-white font-medium mr-2">Publish</button>
                 <button onClick={e => setIsAddingComment(false)} className="text-sm rounded-default px-7 border-2 border-cta  outline-cta bg-cta bg-opacity-10 text-cta font-medium">Cancel</button>
