@@ -16,7 +16,7 @@ const Users = () => {
 
 
   return (
-    <div className="border-x-2  min-h-custom">
+    <div className="border-x-2  min-h-custom dark:bg-dark dark:border-dark-fade">
       <div className="px-4 m-auto py-5">
         <div className="grid grid-cols-4 gap-3 ">
         {users?.map(({url, username, joined_at}) => <UserPreviewComponent url={url} username={username} joinedAt={joined_at} />)}
@@ -28,11 +28,11 @@ const Users = () => {
 
 const UserPreviewComponent = ({url, username, joinedAt}) => {
   return (
-    <Link to={`/user/${username}`} className="py-2 px-2 rounded-default outline outline-1 outline-cta hover:bg-cta-fade">
+    <Link to={`/user/${username}`} className="py-2 px-2 rounded-default outline outline-1 outline-cta hover:bg-cta-fade dark:bg-dark-cta-fade dark:text-gray-200">
       <div className="flex">
         <img src={url} alt="" className="h-10" />
         <div className="ml-2">
-          <h1 className="text-sm text-gray-700 font-medium">{username}</h1>
+          <h1 className="text-sm text-gray-700 font-medium dark:text-dark-cta-fade-text">{username}</h1>
           <div className="flex items-center">
             <p className="text-xs font-gray-600 whitespace-pre-wrap">joined </p>
             

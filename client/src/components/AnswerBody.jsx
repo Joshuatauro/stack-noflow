@@ -107,7 +107,7 @@ const AnswerBody = ({url, upvotedBy, downvotedBy, childrenComments, body, userna
         {
           isEditing ? (
             <div className='pr-4'>
-              <textarea value={editedBody} onChange={e => setEditedBody(e.target.value)} className="w-full rounded-default outline-1 outline px-2 py-2 h-36 resize-y"></textarea>
+              <textarea value={editedBody} onChange={e => setEditedBody(e.target.value)} className="w-full rounded-default outline-1 dark:bg-dark dark:outline-white dark:text-gray-300 outline px-2 py-2 h-36 resize-y"></textarea>
               <div className="flex mb-5">
                 <button onClick={handleEditAnswer} className="text-sm rounded-default py-2 px-7 bg-cta text-white font-medium mr-2">Publish</button>
                 <button onClick={e => setIsEditing(false)} className="text-sm rounded-default py-2.5 px-7 outline outline-cta bg-cta bg-opacity-10 text-cta font-medium">Cancel</button>
