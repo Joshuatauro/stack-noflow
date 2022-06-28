@@ -16,7 +16,7 @@ const Users = () => {
 
 
   return (
-    <div className="border-x-2  min-h-custom dark:bg-dark dark:border-dark-fade">
+    <div className="border-x-2  min-h-custom dark:bg-dark dark:border-dark-fade transition duration-300">
       <div className="px-4 m-auto py-5">
         <div className="grid grid-cols-4 gap-3 ">
         {users?.map(({url, username, joined_at}) => <UserPreviewComponent url={url} username={username} joinedAt={joined_at} />)}

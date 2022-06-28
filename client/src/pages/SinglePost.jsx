@@ -64,38 +64,70 @@ const SinglePost = () => {
 
   const submitAnswer = async(e) => {
     e.preventDefault()
-    const { data } = await axios.post('/api/answers/publish', { answer, questionID: id }, { withCredentials: true })
-    const answerDets = data.answerDetails
-    answerDets.username = owner_username
-    answerDets.url = owner_url
-    setAnswers([...answers, answerDets])
-    setAnswer('')
+    try{
+
+      const { data } = await axios.post('/api/answers/publish', { answer, questionID: id }, { withCredentials: true })
+      const answerDets = data.answerDetails
+      answerDets.username = owner_username
+      answerDets.url = owner_url
+      setAnswers([...answers, answerDets])
+      setAnswer('')
+    } catch(err) {
+      toast.error(err.response.data.message, {
+        icon: <XCircleIcon className='h-6' />,
+        style: {
+          backgroundColor: "#EF4444",
+          color: "#fff"
+        }
+      })
+    }
   }
 
   const handleUpvote = async() => {
-    if(upvotedBy?.includes(userID)) {
-      const { data } = await axios.get(`/api/voting/questions/${id}/remove-upvote`,{ withCredentials: true })
-      setUpvotedBy(data.upvoted_by)
-      setDownvotedBy(data.downvoted_by)
-
-    } else {
-      
-      const { data } = await axios.get(`/api/voting/questions/${id}/add-upvote`, { withCredentials: true })
-      setUpvotedBy(data.upvoted_by)
-      setDownvotedBy(data.downvoted_by)
+    try{
+      if(upvotedBy?.includes(userID)) {
+        const { data } = await axios.get(`/api/voting/questions/${id}/remove-upvote`,{ withCredentials: true })
+        setUpvotedBy(data.upvoted_by)
+        setDownvotedBy(data.downvoted_by)
+        
+      } else {
+        
+        const { data } = await axios.get(`/api/voting/questions/${id}/add-upvote`, { withCredentials: true })
+        setUpvotedBy(data.upvoted_by)
+        setDownvotedBy(data.downvoted_by)
+      }
+    } catch(err){
+      toast.error(err.response.data.message, {
+        icon: <XCircleIcon className='h-6' />,
+        style: {
+          backgroundColor: "#EF4444",
+          color: "#fff"
+        }
+      })
     }
   }
 
   const handleDownvote = async() => {
-    if(downvotedBy?.includes(userID)) {
-      const { data } = await axios.get(`/api/voting/questions/${id}/remove-downvote`,{ withCredentials: true })
-      setUpvotedBy(data.upvoted_by)
-      setDownvotedBy(data.downvoted_by)
-    } else {
-      
-      const { data } = await axios.get(`/api/voting/questions/${id}/add-downvote`, { withCredentials: true })
-      setUpvotedBy(data.upvoted_by)
-      setDownvotedBy(data.downvoted_by)
+    try{
+
+      if(downvotedBy?.includes(userID)) {
+        const { data } = await axios.get(`/api/voting/questions/${id}/remove-downvote`,{ withCredentials: true })
+        setUpvotedBy(data.upvoted_by)
+        setDownvotedBy(data.downvoted_by)
+      } else {
+        
+        const { data } = await axios.get(`/api/voting/questions/${id}/add-downvote`, { withCredentials: true })
+        setUpvotedBy(data.upvoted_by)
+        setDownvotedBy(data.downvoted_by)
+      }
+    } catch(err) {
+      toast.error(err.response.data.message, {
+        icon: <XCircleIcon className='h-6' />,
+        style: {
+          backgroundColor: "#EF4444",
+          color: "#fff"
+        }
+      })
     }
   }
 
@@ -188,7 +220,7 @@ const SinglePost = () => {
   }
 
   return (
-    <div className="border-l-2 dark:border-dark-fade  min-h-custom dark:bg-dark">
+    <div className="border-l-2 dark:border-dark-fade  min-h-custom dark:bg-dark transition duration-300">
       <div className="pl-4 pr-6 m-auto pt-5 pb-3 border-b-2 dark:border-dark-fade ">
         <div className="flex items-center justify-between">
           <h1 className="text-[24px] font-medium text-gray-800 mr-2 dark:text-white">{title}</h1>

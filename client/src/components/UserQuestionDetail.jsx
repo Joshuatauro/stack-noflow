@@ -4,7 +4,7 @@ import { Link } from 'react-router-dom'
 
 const UserQuestionDetail = ({url, username, background, createdAt, updatedAt}) => {
   return (
-    <div className={`${background ? "bg-cta bg-opacity-10 py-2 outline outline-1 outline-cta" : ""}`}>
+    <div className={`transition duration-300 ${background ? "bg-cta bg-opacity-10 py-2 outline outline-1 outline-cta" : ""}`}>
       <div className="px-2">
         <div className="flex">
           <img className={`object-contain ${background ? 'h-[40px]' : "h-[35px]"}`} src={url} alt="" />

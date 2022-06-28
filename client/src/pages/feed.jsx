@@ -18,7 +18,6 @@ const Feed = () => {
       setQuestions(data.questions)
       setPage(prev => prev+1)
     }
-    console.log('this')
 
     fetchPosts()
   }, [searchParams])
@@ -40,7 +39,7 @@ const Feed = () => {
 
 
   return (
-    <div className="border-x-2 min-h-custom dark:bg-dark dark:text-white dark:border-dark-fade">
+    <div className="border-x-2 min-h-custom dark:bg-dark dark:text-white dark:border-dark-fade transition duration-300">
       <div className="px-4 m-auto py-5 border-b-2 dark:border-gray-700 ">
         <div className="flex items-center justify-between">
           <h1 className="text-[24px] font-medium text-gray-800 dark:text-white mr-2">All Questions</h1>

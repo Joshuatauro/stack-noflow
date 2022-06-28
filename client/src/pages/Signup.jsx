@@ -40,34 +40,34 @@ const Signup = () => {
   }
 
   return (
-    <div className="w-full h-screen">
-      <Link to='/feed' className="w-full py-5 border-b-2 flex items-center justify-center text-3xl font-bold">Stack<span className="text-cta">noflow</span></Link>
+    <div className="w-full h-screen dark:bg-dark">
+      <Link to='/feed' className="w-full py-5 border-b-2 dark:border-dark-fade dark:text-white flex items-center justify-center text-3xl font-bold">Stack<span className="text-cta">noflow</span></Link>
       <div className=" flex flex-col w-1/3 m-auto mt-5">
-        <form action="" className="">
-          <h1 className="text-2xl font-bold">Sign up</h1>
-          <p className="text-xs text-gray-500 font-medium mb-5">Ever get stuck on a question for hours? Never again, one post is all it takes</p>
+        <form action="" className="" onSubmit={handleSignup}>
+          <h1 className="text-2xl font-bold dark:text-white">Sign up</h1>
+          <p className="text-xs text-gray-500 font-medium mb-5 dark:text-dark-text">Ever get stuck on a question for hours? Never again, one post is all it takes</p>
           <div className="flex flex-col mb-3">
-            <label htmlFor="" className="text-sm font-medium text-gray-600 mb-1">Username</label>
-            <input value={username} onChange={e => setUsername(e.target.value)} type="text" className="w-full py-1.5 px-2 outline  outline-1 rounded-default" />
+            <label htmlFor="" className="text-sm font-medium text-gray-600 mb-1 dark:text-dark-text">Username</label>
+            <input value={username} onChange={e => setUsername(e.target.value)} type="text" className="w-full py-1.5 px-2 outline  outline-1 rounded-default bg-transparent dark:outline-gray-400 dark:text-white" />
           </div>
           <div className="flex flex-col mb-3">
-            <label htmlFor="" className="text-sm font-medium text-gray-600 mb-1">Email address</label>
-            <input value={email} onChange={e => setEmail(e.target.value)} type="text" className="w-full py-1.5 px-2 outline  outline-1 rounded-default" />
+            <label htmlFor="" className="text-sm font-medium text-gray-600 mb-1 dark:text-dark-text">Email address</label>
+            <input value={email} onChange={e => setEmail(e.target.value)} type="text" className="w-full py-1.5 px-2 outline  outline-1 rounded-default bg-transparent dark:outline-gray-400 dark:text-white" />
           </div>
           <div className="flex flex-col">
-            <label htmlFor="" className="text-sm font-medium text-gray-600 mb-1">Password</label>
-            <input value={password} onChange={e => setPassword(e.target.value)} type="password" className="w-full py-1.5 px-2 outline outline-1 rounded-default" />
+            <label htmlFor="" className="text-sm font-medium text-gray-600 mb-1 dark:text-dark-text">Password</label>
+            <input value={password} onChange={e => setPassword(e.target.value)} type="password" className="w-full py-1.5 px-2 outline outline-1 rounded-default bg-transparent dark:outline-gray-400 dark:text-white" />
           </div>
-          <button onClick={handleSignup} className="w-full rounded-default bg-cta text-white font-medium py-2 mt-4">Sign up</button>
+          <button className="w-full rounded-default bg-cta text-white font-medium py-2 mt-4">Sign up</button>
         </form>
         
         <div className="relative my-4">
-          <div className="outline outline-1 outline-gray-500 rounded-full  w-full"></div>
-          <p className="absolute left-1/2 text-gray-500 top-1/2 -translate-y-2/4 -translate-x-2/4 px-1 bg-white text-xs ">OR</p>
+          <div className="outline outline-1 outline-gray-500 dark:outline-dark-fade rounded-full  w-full"></div>
+          <p className="absolute left-1/2 text-gray-500 dark:text-dark-text top-1/2 -translate-y-2/4 -translate-x-2/4 px-1 bg-white dark:bg-dark text-xs ">OR</p>
         </div>
-        <h1 className="text-2xl font-bold ">Log in</h1>
-        <p className="text-xs text-gray-500 font-medium">Already have an account? Log in here</p>
-        <Link to="/signup" className='w-full outline outline-1 outline-cta bg-cta bg-opacity-10 rounded-default py-1.5 flex justify-center mt-5 text-cta font-medium'>Log in</Link>
+        <h1 className="text-2xl font-bold dark:text-white ">Log in</h1>
+        <p className="text-xs text-gray-500 font-medium dark:text-dark-text">Already have an account? Log in here</p>
+        <Link to="/login" className='w-full outline outline-1 outline-cta bg-cta bg-opacity-10 rounded-default py-1.5 flex justify-center mt-5 text-cta font-medium'>Log in</Link>
       </div>
       <Toaster position="bottom-right"/>
     </div>

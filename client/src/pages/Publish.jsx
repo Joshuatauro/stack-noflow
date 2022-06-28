@@ -77,7 +77,7 @@ const Publish = () => {
 
 
   return (
-    <div className="border-x-2 dark:border-dark-fade dark:bg-dark min-h-custom">
+    <div className="border-x-2 dark:border-dark-fade dark:bg-dark min-h-custom transition duration-300">
       <div className="px-4 m-auto py-5 ">
         <form action="" onSubmit={e=>handleSubmit(e)} className="">
           <h1 className="text-[24px] font-medium text-gray-800 dark:text-white ">Ask a Question</h1>

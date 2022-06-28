@@ -93,7 +93,7 @@ const AnswerBody = ({url, upvotedBy, downvotedBy, childrenComments, body, userna
   }
 
   return (
-    <div className="grid grid-cols-[0.1fr_0.9fr] py-4 border-b-2 dark:border-dark-fade">
+    <div className="grid grid-cols-[0.1fr_0.9fr] py-4 border-b-2 dark:border-dark-fade transition duration-300">
       <div className='flex flex-col h-fit items-center '>
         <button className="outline-none" onClick={handleUpvote} >
           <ChevronUpIcon className={`w-10  ${upvoted.includes(userID) ? "text-orange-500" : "text-gray-700"}`} />

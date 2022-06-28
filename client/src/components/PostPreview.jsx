@@ -7,7 +7,7 @@ const PostPreview = ({title, body, createdAt, updatedAt, username, url, totalAns
   const downvoted = downvotedBy ? downvotedBy.length : []
 
   return (
-    <section className="w-full text-inter border-b-2 dark:border-dark-fade">
+    <section className="w-full text-inter border-b-2 dark:border-dark-fade transition duration-300">
       <div className="pr-2 m-auto py-3">
         <div className="grid grid-cols-post-layout">
           <div className="flex flex-col">

@@ -1,7 +1,7 @@
 import logo from './logo.svg';
 import './App.css';
 import { BrowserRouter, Navigate, Route, Routes } from 'react-router-dom'
-import Feed from './pages/Feed'
+import Feed from './pages/feed'
 import SideNav from './components/SideNav';
 import Navbar from './components/Navbar'
 import TagsBar from './components/TagsBar';
@@ -81,7 +81,7 @@ const UsersRoute = () => {
 
 const App = () => {
   return (
-    <div className="App font-inter">
+    <div className="App font-inter ">
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Navigate replace to="/feed" />} />
