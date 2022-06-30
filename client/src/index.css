@@ -2,3 +2,40 @@
 @tailwind components;
 @tailwind utilities;
 @import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&family=Roboto:wght@100;300;400;500;700;900&display=swap');
+
+.rmsc {
+  --rmsc-main: #4285f4;
+  --rmsc-hover: #f1f3f5;
+  --rmsc-selected: #e2e6ea;
+  --rmsc-border: #000;
+  --rmsc-gray: #aaa;
+  --rmsc-bg: #fff;
+  --rmsc-p: 10px; /* Spacing */
+  --rmsc-radius: 4px; /* Radius */
+  --rmsc-h: 38px; /* Height */
+}
+
+.rmsc .dropdown-container {
+  border: 1px solid #000 !important;
+  border-radius: 5px !important;
+  
+}
+
+.dark .rmsc .dropdown-container {
+  border: 1px solid #fff !important;
+  border-radius: 5px !important;
+  
+}
+
+.dark .rmsc {
+  --rmsc-main: #4285f4;
+  --rmsc-hover: #2d2e34;
+  --rmsc-selected: #13283F;
+  --rmsc-border: #fff;
+  --rmsc-gray: #c4c4c4;
+  color: white;
+  --rmsc-bg: #1E2028;
+  --rmsc-p: 10px; /* Spacing */
+  --rmsc-radius: 4px; /* Radius */
+  --rmsc-h: 38px; /* Height */
+}

@@ -19,6 +19,7 @@ const SinglePost = () => {
   const [authorID, setAuthorID] = useState('')
   const [title, setTitle] = useState('')
   const [views, setViews] = useState('')
+  const [tags, setTags] = useState([])
   const [upvotedBy, setUpvotedBy] = useState([1,2,3])
   const [downvotedBy, setDownvotedBy] = useState([1])
   const [username, setUsername] = useState('')
@@ -37,7 +38,8 @@ const SinglePost = () => {
   useEffect(() => {
     const getQuestionData = async() => {
       const { data } = await axios.get(`/api/questions/${id}`, {withCredentials: true} )
-      const { body, title, url, username, upvoted_by, downvoted_by, views, created_at, updated_at, user_id:author_id} = data.questionDetails
+      const { body, title, url, username, upvoted_by, downvoted_by, views, created_at, updated_at, user_id:author_id, tags} = data.questionDetails
+      console.log(tags)
       setBody(body)
       setEditingBody(body)
       setTitle(title)
@@ -49,13 +51,13 @@ const SinglePost = () => {
       setCreatedAt(created_at)
       setUpdatedAt(updated_at)
       setAuthorID(author_id)
+      setTags(tags)
     }
 
     const getAnswersAndCommentsData = async() => {
       const { data } = await axios.get(`/api/answers/${id}`, { withCredentials: true })
       setComments(data.comments)
       setAnswers(data.answers)
-      console.log(data.comments)
     }
 
     getQuestionData()
@@ -267,8 +269,10 @@ const SinglePost = () => {
                 )
               }
               <div className="flex mt-2">
-                <Tag tagName={"html"} size={'xl'} />
-                <Tag tagName={"react"} size='xl' />
+                {
+                  tags.map(name => <Tag tagName={name} size='xl' />)
+                }
+
               </div>
               <div className="flex justify-between mt-1.5 pr-4">
                 <div className="flex place-items-start">

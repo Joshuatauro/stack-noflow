@@ -67,7 +67,7 @@ const Login = () => {
 
   return (
     <div className="w-full h-screen dark:text-white dark:bg-dark">
-      <Link to="/feed" className="w-full py-5 border-b-2 flex items-center justify-center text-3xl font-bold">Stack<span className="text-cta">noflow</span></Link>
+      <Link to="/feed" className="w-full py-5 border-b-2 dark:border-dark-fade flex items-center justify-center text-3xl font-bold">Stack<span className="text-cta">noflow</span></Link>
       <div className=" flex flex-col w-1/3 m-auto mt-5">
         <form action="" className="">
           <h1 className="text-2xl font-bold">Log in</h1>

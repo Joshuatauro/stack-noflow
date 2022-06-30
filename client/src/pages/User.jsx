@@ -76,13 +76,13 @@ const Question = ({id, title, createdAt, voteCount}) => {
 const Answer = ({id, body, createdAt, voteCount, questionID}) => {
   return(
 
-    <Link to={`/question/${questionID}`} className=" grid grid-cols-[0.05fr_0.95fr] items-center border-b-2 py-2">
-      <div className="grid place-items-center">
-        <div className="items-center border border-gray-800  text-sm mr-1 justify-center h-fit py-1 px-2">{voteCount}</div>
+    <Link to={`/question/${questionID}`} className=" grid grid-cols-[0.05fr_0.95fr] items-center border-b-2 dark:border-dark-fade py-2">
+      <div className="h-full flex justify-center">
+        <div className="items- border border-gray-800 dark:border-dark-text text-sm mr-1 justify-center h-fit w-fit py-1 px-2">{voteCount}</div>
       </div>
-      <div className="flex justify-between">
-        <h1 className="bg-red">{body.substr(0, 120)}{body.length > 120 ? '...' : ''}</h1>
-        <Moment className='text-sm whitespace-nowrap text-gray-700' format='DD MMM, YYYY'>{createdAt}</Moment>
+      <div className="grid grid-cols-[0.9fr_0.1fr] justify-between">
+        <h1 className="bg-red dark:text-white ">{body.length > 80 ? body.slice(0,200)+'...' : body}</h1>
+        <Moment className='text-sm text-gray-700 dark:text-dark-text' format='DD MMM, YYYY'>{createdAt}</Moment>
       </div>
     </Link>
   )
