@@ -11,18 +11,19 @@ import Publish from './pages/Publish';
 import Signup from './pages/Signup';
 import User from './pages/User';
 import Users from './pages/Users'
+import TagQuestions from './pages/TagQuestions';
 const FeedRoutes = () => {
   return (
-    <>
+    <div className=''>
       <Navbar />
-      <div className="grid grid-cols-layout ">
-        <SideNav tab={1} />
+      <div className="grid lg:grid-cols-layout max-w-[1600px] m-auto ">
+        <SideNav tab={1}/>
           <Routes>
             <Route path='/' element={<Feed />} />
           </Routes>
           <TagsBar />
       </div>
-    </>
+    </div>
   )
 }
 
@@ -30,8 +31,7 @@ const QuestionRoute = () => {
   return (
     <>
       <Navbar />
-
-      <div className="grid grid-cols-new-layout ">
+      <div className="grid lg:grid-cols-new-layout max-w-[1600px] m-auto ">
         <SideNav tab={1} />
         <SinglePost />
       </div>
@@ -43,7 +43,7 @@ const PublishRoute = () => {
   return(
     <>
       <Navbar />
-      <div className="grid grid-cols-layout ">
+      <div className="grid lg:grid-cols-layout max-w-[1600px] m-auto ">
         <SideNav />
           <Publish />
         <TagsBar />
@@ -56,7 +56,7 @@ const UserRoute = () => {
   return(
     <>
       <Navbar/>
-      <div className="grid grid-cols-layout ">
+      <div className="grid lg:grid-cols-layout max-w-[1600px] m-auto ">
         <SideNav tab={3} />
           <User />
         <TagsBar />
@@ -78,10 +78,27 @@ const UsersRoute = () => {
   )
 }
 
+const TagRoute = () => {
+  return(
+    <>
+    <Navbar />
+    <div className="grid grid-cols-layout ">
+      <SideNav tab={1} />
+        <Routes>
+          <Route path='/' element={<TagQuestions />} />
+        </Routes>
+        <TagsBar />
+    </div>
+  </>
+  )
+}
+
 
 const App = () => {
   return (
-    <div className="App font-inter ">
+    <div className="App font-inter dark:bg-dark ">
+      <div className="App font-inter dark:bg-dark ">
+
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Navigate replace to="/feed" />} />
@@ -92,8 +109,10 @@ const App = () => {
           <Route path="/publish" element={<PublishRoute />} />
           <Route path="/user/:username" element={<UserRoute />} />
           <Route path="/users" element={<UsersRoute />} />
+          <Route path="/tags/:tagName" element={<TagRoute />} />
         </Routes> 
       </BrowserRouter>
+      </div>
     </div>
   );
 }

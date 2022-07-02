@@ -15,16 +15,16 @@ const SinglePost = () => {
   const { userID, username: owner_username, url: owner_url } = useContext(AuthContext)
   const { id } = useParams()
 
-  const [body, setBody] = useState('')
-  const [authorID, setAuthorID] = useState('')
-  const [title, setTitle] = useState('')
-  const [views, setViews] = useState('')
-  const [tags, setTags] = useState([])
+  const [body, setBody] = useState('It is a long established fact that a reader will be distracted by the readable content of a page when looking at its layout. The point of using Lorem Ipsum is that it has a more-or-less normal distribution of letters, as opposed to using')
+  const [authorID, setAuthorID] = useState('234')
+  const [title, setTitle] = useState('Hey gyus welcome to this')
+  const [views, setViews] = useState('200')
+  const [tags, setTags] = useState(['react', 'html'])
   const [upvotedBy, setUpvotedBy] = useState([1,2,3])
   const [downvotedBy, setDownvotedBy] = useState([1])
-  const [username, setUsername] = useState('')
-  const [url, setUrl] = useState('')
-  const [createdAt, setCreatedAt] = useState()
+  const [username, setUsername] = useState('joshuatauro45')
+  const [url, setUrl] = useState('https://www.gravatar.com/avatar/198fb9b77fb10d10bae092eea5789295?d=identicon')
+  const [createdAt, setCreatedAt] = useState(new Date())
   const [updatedAt, setUpdatedAt] = useState()
   
   const [answers, setAnswers] = useState([])
@@ -222,15 +222,15 @@ const SinglePost = () => {
   }
 
   return (
-    <div className="border-l-2 dark:border-dark-fade  min-h-custom dark:bg-dark transition duration-300">
-      <div className="pl-4 pr-6 m-auto pt-5 pb-3 border-b-2 dark:border-dark-fade ">
-        <div className="flex items-center justify-between">
-          <h1 className="text-[24px] font-medium text-gray-800 mr-2 dark:text-white">{title}</h1>
-          <Link to={'/publish'} className="bg-cta px-5 py-3 text-sm font-medium min-w-max text-white rounded-default place-self-start ">
+    <div className="md:border-l-2 dark:border-dark-fade  min-h-custom dark:bg-dark transition duration-300">
+      <div className="px-4 md:pl-4 md:pr-6 m-auto pt-5 pb-3 border-b-2 dark:border-dark-fade ">
+        <div className="md:flex items-center justify-between">
+          <h1 className="text-mobile-lg md:text-[24px] font-medium text-gray-800 md:mr-2 dark:text-white">{title}</h1>
+          <Link to={'/publish'} className="bg-cta hidden md:block px-5 py-3 text-sm font-medium min-w-max text-white rounded-default place-self-start ">
             Ask Question
           </Link>
         </div>
-        <div className="flex mt-2 text-[12px]">
+        <div className="flex mt-2 text-mobile-xs md:text-[12px]">
           <div className="flex mr-5">
             <h2 className="text-cta-fade-text mr-1 font-light dark:text-dark-text">Asked</h2>
             <h2 className="font-normal dark:text-white"><Moment fromNow >{createdAt}</Moment></h2>
@@ -241,16 +241,16 @@ const SinglePost = () => {
           </div>
         </div>
       </div>
-      <div className="grid grid-cols-inner-layout ">
-        <div className="border-r-2 pt-3 dark:border-dark-fade ">
-          <div className="grid grid-cols-[0.1fr_0.9fr] pb-4 border-b-2 dark:border-dark-fade">
-            <div className='flex flex-col mt-5 h-fit items-center '>
+      <div className="grid md:grid-cols-inner-layout">
+        <div className="md:border-r-2 pt-3 dark:border-dark-fade ">
+          <div className="grid grid-cols-[0.14fr_0.86fr] md:grid-cols-[0.1fr_0.9fr] pb-4 border-b-2 dark:border-dark-fade">
+            <div className='flex flex-col h-fit items-center '>
               <button className="outline-none" onClick={handleUpvote}>
-                <ChevronUpIcon className={`w-10  ${upvotedBy?.includes(userID) ? "text-orange-500" : "text-gray-700"}`} />
+                <ChevronUpIcon className={`w-8 md:w-10 ${upvotedBy?.includes(userID) ? "text-orange-500" : "text-gray-700"}`} />
               </button>
-              <p className='my-1 font-medium text-[17px] dark:text-white'>{upvotedBy?.length - downvotedBy?.length}</p>
+              <p className='my-1 font-medium text-mobile-sm md:text-[17px] dark:text-white'>{upvotedBy?.length - downvotedBy?.length}</p>
               <button className="" onClick={handleDownvote}>
-                <ChevronDownIcon className={`w-10  ${downvotedBy?.includes(userID) ? "text-orange-500" : "text-gray-700"}`}/>
+                <ChevronDownIcon className={`w-8 md:w-10 ${downvotedBy?.includes(userID) ? "text-orange-500" : "text-gray-700"}`}/>
               </button>
             </div>
             <div className="">  
@@ -265,7 +265,7 @@ const SinglePost = () => {
                     </div>
                   </>
                   ) : (
-                  <p className='text-gray-800 pr-4 whitespace-pre-line dark:text-dark-text'>{body}</p>
+                  <p className='text-gray-800 text-mobile-sm md:text-base pr-4 whitespace-pre-line dark:text-dark-text'>{body}</p>
                 )
               }
               <div className="flex mt-2">
@@ -274,7 +274,11 @@ const SinglePost = () => {
                 }
 
               </div>
-              <div className="flex justify-between mt-1.5 pr-4">
+              <div className=" mt-1.5 pr-4">
+              <div className=" flex justify-end ">
+
+<UserQuestionDetail url={url} createdAt={createdAt} updatedAt={updatedAt} username={username} background={true}/>
+</div>
                 <div className="flex place-items-start">
                   <button onClick={handleCopyToClipboard} className='text-[13px] dark:text-gray-400 font-medium text-gray-700'>Share</button>
                 {
@@ -287,12 +291,12 @@ const SinglePost = () => {
                     ) : <div className=""></div>
                   }
                   </div>
-                <UserQuestionDetail url={url} createdAt={createdAt} updatedAt={updatedAt} username={username} background={true}/>
+
               </div>
             </div>
           </div>
           <div className="flex justify-between items-center px-4 mt-5 mb-2">
-            <h1 className="text-xl font-semibold dark:text-white">{answers.length} Answers</h1>
+            <h1 className="text-mobile-base md:text-xl font-semibold dark:text-white">{answers.length} Answers</h1>
           </div>
 
           {

@@ -119,11 +119,11 @@ const Publish = () => {
   ]
 
   return (
-    <div className="border-x-2 dark:border-dark-fade dark:bg-dark min-h-custom transition duration-300">
+    <div className="lg:border-x-2 dark:border-dark-fade dark:bg-dark min-h-custom transition duration-300">
       <div className="px-4 m-auto py-5 ">
         <form action="" onSubmit={e=>handleSubmit(e)} className="">
-          <h1 className="text-[24px] font-medium text-gray-800 dark:text-white ">Ask a Question</h1>
-          <p className="text-xs text-gray-500 dark:text-gray-300 font-medium mb-5">Got a question that you just cant seem to solve? Feel free to post it here and seek help from multiple developers across the world</p>
+          <h1 className="text-mobile-xl md:text-[24px] font-medium text-gray-800 dark:text-white ">Ask a Question</h1>
+          <p className="text-mobile-xs md:text-sm text-gray-500 dark:text-gray-300 font-medium mb-5">Got a question that you just cant seem to solve? Feel free to post it here and seek help from multiple developers across the world</p>
           <div className="flex flex-col">
             <label htmlFor="" className="text-sm font-medium text-gray-600 dark:text-white mb-1">Title</label>
             <input  type="text" value={title} onChange={e => setTitle(e.target.value)} placeholder='Enter atleast 15 characters' className="w-full py-1.5 px-2 outline  outline-1 rounded-default placeholder:text-sm dark:bg-dark dark:outline-white dark:text-gray-200" />

@@ -9,7 +9,7 @@ const User = () => {
 
   const [questions, setQuestions] = useState()
   const [answers, setAnswers] = useState()
-  const [userDetails, setUserDetails] = useState()
+  const [userDetails, setUserDetails] = useState({username: "Joshua Tauro", url: "https://www.gravatar.com/avatar/54575a5b5887e5b9a61bf48a307710ff?d=identicon"})
 
 
   useEffect(() => {
@@ -27,28 +27,27 @@ const User = () => {
     <div className="border-x-2 dark:border-dark-fade  min-h-custom dark:bg-dark dark:text-dark-text transition duration-300">
       <div className="px-4 m-auto py-5">
         <div className="flex">
-          <img className=" object-contain h-28 rounded-default" src={userDetails?.url} alt="" />
+          <img className=" object-contain h-20 md:h-28 rounded-default" src={userDetails?.url} alt="" />
           <div className="ml-3 w-full">
           <div className="flex items-end">
-            <h1 className="text-3xl font-medium text-gray-800 dark:text-white">{userDetails?.username}</h1>
-            <a className='text-[14px] mx-2 text-cta underline' href="https://joshuatauro.vercel.app" target="_blank" rel="noreferrer">Portfolio</a>
-              <a className='text-[14px] text-cta underline' href="https://joshuatauro.vercel.app" target="_blank" rel="noreferrer">Github</a>
+            <h1 className="text-mobile-xl md:text-3xl font-medium text-gray-800 dark:text-white">{userDetails?.username}</h1>
             </div>
             <div className="flex items-center w-full mt-1 mb-3 ">
-                <CalendarIcon className="h-5 mr-1" />
-                <Moment fromNow className="text-[13px]">{userDetails?.joined_at}</Moment>              
+                <CalendarIcon className="h-4 md:h-5 mr-1" />
+                <div className="flex">
+                  <h1 className='text-mobile-sm md:text-[13px] mr-1'>joined </h1> <Moment fromNow  className="text-mobile-sm md:text-[13px]">{userDetails?.joined_at}</Moment>              
+                </div>
             </div>
-            <p className="text-[14px] text-gray-700 dark:text-dark-text">{userDetails?.about ? userDetails.about : 'Hey there, welcome to my profile'}</p>
           </div>
         </div>
         <div className="mt-5">
-          <h1 className="text-2xl text-gray-800 mb-2 dark:text-white">Recent questions</h1>
+          <h1 className="text-mobile-xl md:text-2xl text-gray-800 mb-2 dark:text-white">Recent questions</h1>
           {
             questions?.map(({id, title, vote_count, created_at}) => <Question title={title} key={id} voteCount={vote_count} createdAt={created_at} id={id} />)
           }
         </div>
         <div className="mt-7">
-          <h1 className="text-2xl text-gray-800 mb-2 dark:text-white">Recent answers</h1>
+          <h1 className="text-mobile-xl md:text-2xl text-gray-800 mb-2 dark:text-white">Recent answers</h1>
           {
             answers?.map(({id, body, vote_count, created_at, question_id}) => <Answer body={body} key={id} voteCount={vote_count} createdAt={created_at} id={id} questionID={question_id}/>)
           }
@@ -62,12 +61,14 @@ const Question = ({id, title, createdAt, voteCount}) => {
   console.log(title)
   return(
     <Link to={`/question/${id}`} className=" grid grid-cols-[0.05fr_0.95fr] items-center border-b-2 dark:border-dark-fade py-2">
-      <div className="grid place-items-center">
-        <div className="items-center border border-gray-800 dark:border-dark-text text-sm mr-1 justify-center h-fit py-1 px-2">{voteCount}</div>
+      <div className="flex justify-center">
+        <div className="items-center border border-gray-800 dark:border-dark-text text-sm mr-1 justify-center h-fit w-7 py-0.5 flex  ">{voteCount}</div>
       </div>
       <div className="flex justify-between">
-        <h1 className="bg-red dark:text-white">{title}</h1>
-        <Moment className='text-sm text-gray-700 dark:text-dark-text' format='DD MMM, YYYY'>{createdAt}</Moment>
+        <h1 className="dark:text-white text-mobile-xs md:text-sm flex-wrap mx-1">{title}</h1>
+        <div className="flex justify-end flex-nowrap">
+          <Moment className='text-mobile-xs md:text-sm min-w-max  text-gray-700 dark:text-dark-text flex-nowrap' format='DD MMM, YYYY'>{createdAt}</Moment>
+        </div>
       </div>
     </Link>
   )
@@ -75,14 +76,15 @@ const Question = ({id, title, createdAt, voteCount}) => {
 
 const Answer = ({id, body, createdAt, voteCount, questionID}) => {
   return(
-
     <Link to={`/question/${questionID}`} className=" grid grid-cols-[0.05fr_0.95fr] items-center border-b-2 dark:border-dark-fade py-2">
-      <div className="h-full flex justify-center">
-        <div className="items- border border-gray-800 dark:border-dark-text text-sm mr-1 justify-center h-fit w-fit py-1 px-2">{voteCount}</div>
-      </div>
-      <div className="grid grid-cols-[0.9fr_0.1fr] justify-between">
-        <h1 className="bg-red dark:text-white ">{body.length > 80 ? body.slice(0,200)+'...' : body}</h1>
-        <Moment className='text-sm text-gray-700 dark:text-dark-text' format='DD MMM, YYYY'>{createdAt}</Moment>
+      <div className="flex justify-center h-full w-full">
+        <div className="items-center border border-gray-800 dark:border-dark-text text-sm mr-1 justify-center h-fit w-7 py-0.5 flex  ">{voteCount}</div>
+        </div>
+        <div className="flex justify-between">
+          <h1 className="dark:text-white text-mobile-xs md:text-sm flex-wrap mx-1">{body.slice(0,150)}</h1>
+          <div className="flex justify-end flex-nowrap">
+            <Moment className='text-mobile-xs md:text-sm min-w-max  text-gray-700 dark:text-dark-text flex-nowrap' format='DD MMM, YYYY'>{createdAt}</Moment>
+          </div>
       </div>
     </Link>
   )
