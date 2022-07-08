@@ -1,13 +1,16 @@
 import React, { useContext, useEffect } from 'react'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { AuthContext } from '../context/AuthContext'
-import { LogoutIcon, CheckCircleIcon, XCircleIcon, MoonIcon, SunIcon, CogIcon } from '@heroicons/react/outline'
+import { LogoutIcon, CheckCircleIcon, XCircleIcon, MoonIcon, SunIcon, CogIcon, SearchIcon, XIcon } from '@heroicons/react/outline'
 import toast, {Toaster} from 'react-hot-toast'
 import { useState } from 'react'
 
 const Navbar = () => {
 
   const [isDark, setIsDark] = useState(localStorage.isDark)
+  const [searchShow, setSearchShow] = useState(false)
+  const [search, setSearch] = useState()
+  const navigate = useNavigate()
 
   const { isLoggedIn, checkIfUserLoggedIn, username, url, logout } = useContext(AuthContext)
 
@@ -55,23 +58,34 @@ const Navbar = () => {
     }
   }
 
+
+  const handleSearchQuery = () => {
+    console.log('hello')
+    navigate(`/search?q=${search}`)
+  }
+
   return (
     <nav className="w-full border-b bg-white dark:bg-dark sticky z-50 top-0 border-cta border-b-gray-500 transition duration-300 ">
       <div className={` px-4 md:px-6 h-16 dark:border-dark-text ${isLoggedIn ? 'grid grid-cols-11' : 'flex'} items-center xl:max-w-[1600px] m-auto`}>
-        <div className=" items-center w-full mr-2 col-span-8">
+        <div className={`items-center w-full mr-2 ${searchShow ? 'col-span-11 md:col-span-7' : 'col-span-7'}`}>
           <div className="flex items-center  ">
             <div className="">
               <Link to="/" className="text-xl font-black text-gray-800 dark:text-white mr-2 hidden md:block">stack<span className="text-cta ">noflow</span></Link>
               <Link to="/" className="text-xl font-black text-gray-800 dark:text-white mr-2 md:hidden">S<span className="text-cta">N</span></Link>
             </div>
-            <input type="text" placeholder="Search anything here....." className="w-full h-11 px-4 focus:outline-gray-800 outline outline-1 outline-gray-400 rounded-md text-sm font-normal placeholder:text-gray-600 dark:bg-dark transition duration-300 hidden md:block" />
+            <input value={search} onChange={e => setSearch(e.target.value)} type="text" placeholder="Search anything here....." className={`w-full h-11 px-4 focus:outline-gray-800 outline outline-1 outline-gray-400 dark:outline-dark-fade rounded-md text-sm font-normal placeholder:text-gray-600 dark:bg-dark transition duration-300 dark:text-white ${searchShow ? 'block': 'hidden md:block '}`} />
+            <button className={`dark:text-white ${searchShow ? 'block md:hidden': 'hidden'}`} onClick={handleSearchQuery}><SearchIcon className='h-5 ml-2 md:hidden' /></button>
+            <button className={`dark:text-white ${searchShow ? 'block md:hidden': 'hidden'}`} onClick={() => setSearchShow(!searchShow)}><XIcon className='h-5 ml-2 md:hidden' /></button>
+
+
+
           </div>
         </div>
-        <div className="col-span-3">
-
+        <div className={`col-span-4 ${searchShow ? 'hidden md:block':'block'}`}>
         {
           isLoggedIn ? (
             <div className="flex w-full items-center justify-end">
+              <button className='dark:text-white' onClick={() => setSearchShow(!searchShow)}><SearchIcon className='h-5 mr-2 md:hidden' /></button>
               <Link to={`/user/${username}`}  className="flex items-center">
                 <h1 className="text-sm font-medium text-gray-600 ml-1.5 mr-1 dark:text-white hidden lg:block">{username}</h1>
                 <img className=" object-contain h-8" src={url} alt="" />
@@ -82,7 +96,8 @@ const Navbar = () => {
                 localStorage.isDark === 'yes' ? <SunIcon onClick={toggleTheme} className='h-6 cursor-pointer dark:text-white' />: <MoonIcon onClick={toggleTheme} className='h-6 cursor-pointer dark:text-white' /> 
               }
               </div>
-              <button className='dark:text-white w-6 ' onClick={handleLogout}><LogoutIcon /></button>
+              <button className='dark:text-white' onClick={handleLogout}><LogoutIcon className='h-5' /></button>
+              
             </div>
 
           ) : (

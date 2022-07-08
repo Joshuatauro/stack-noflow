@@ -12,6 +12,7 @@ import Signup from './pages/Signup';
 import User from './pages/User';
 import Users from './pages/Users'
 import TagQuestions from './pages/TagQuestions';
+import SearchQuestions from './pages/SearchQuestions';
 const FeedRoutes = () => {
   return (
     <div className=''>
@@ -82,10 +83,25 @@ const TagRoute = () => {
   return(
     <>
     <Navbar />
-    <div className="grid grid-cols-layout ">
+    <div className="grid lg:grid-cols-layout max-w-[1600px] m-auto ">
       <SideNav tab={1} />
         <Routes>
           <Route path='/' element={<TagQuestions />} />
+        </Routes>
+        <TagsBar />
+    </div>
+  </>
+  )
+}
+
+const SearchRoute = () => {
+  return(
+    <>
+    <Navbar />
+    <div className="grid lg:grid-cols-layout max-w-[1600px] m-auto ">
+      <SideNav tab={1} />
+        <Routes>
+          <Route path='/' element={<SearchQuestions />} />
         </Routes>
         <TagsBar />
     </div>
@@ -109,7 +125,8 @@ const App = () => {
           <Route path="/publish" element={<PublishRoute />} />
           <Route path="/user/:username" element={<UserRoute />} />
           <Route path="/users" element={<UsersRoute />} />
-          <Route path="/tags/:tagName" element={<TagRoute />} />
+          <Route path="/tag/:tagName" element={<TagRoute />} />
+          <Route path="/search" element={<SearchRoute />} />
         </Routes> 
       </BrowserRouter>
       </div>

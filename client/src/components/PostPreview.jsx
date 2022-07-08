@@ -26,7 +26,7 @@ const PostPreview = ({title, body, createdAt, updatedAt, username, url, totalAns
             </div>
           </div>
           <div className="">
-              <Link to={`/question/${qID}`} className=" text-mobile-sm md:text-[20px] font-normal md:font-normal underline underline-offset-[2px] decoration-1 text-cta dark:text-dark-cta-fade-text">{title}</Link>
+              <Link to={`/question/${qID}`} className=" text-mobile-sm md:text-[19px] font-normal md:font-normal underline underline-offset-[2px] decoration-1 text-cta dark:text-dark-cta-fade-text">{title}</Link>
             <p className='text-mobile-xs md:text-[14px] text-gray-700 font-normal dark:text-dark-text'>{body.slice(0, 130)}{ body.length > 130 ? "..." : "" }</p>
             <div className=" mt-2 justify-between">
               <div className="flex">
