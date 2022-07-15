@@ -1,3 +1,5 @@
+CREATE EXTENSION IF NOT EXISTS "uuid-ossp";
+
 CREATE TABLE users (
   id VARCHAR PRIMARY KEY DEFAULT uuid_generate_v4(),
   username VARCHAR(20) NOT NULL UNIQUE,
@@ -5,12 +7,11 @@ CREATE TABLE users (
   hashed_password VARCHAR NOT NULL,
   url VARCHAR NOT NULL,
   joined_at TIMESTAMP NOT NULL,
-  title VARCHAR(60),
   about VARCHAR,
   location VARCHAR,
   portfolio VARCHAR,
-  github VARCHAR,
-)
+  github VARCHAR
+);
 
 CREATE TABLE questions (
   id VARCHAR PRIMARY KEY DEFAULT uuid_generate_v4(),
@@ -22,19 +23,10 @@ CREATE TABLE questions (
   tags TEXT[],
   upvoted_by TEXT[] DEFAULT array[]::VARCHAR[],
   downvoted_by TEXT[] DEFAULT array[]::VARCHAR[],
-  views INT DEFAULT 0
-);
+  views INT DEFAULT 0,
 
-CREATE TABLE comments (
-  id VARCHAR PRIMARY KEY DEFAULT uuid_generate_v4(),
-  user_id VARCHAR REFERENCES users(id) ON DELETE SET NULL,
-  answer_id VARCHAR REFERENCES answers(id) ON DELETE CASCADE,
-  question_id VARCHAR REFERENCES questions(id) ON DELETE CASCADE,
-  body VARCHAR NOT NULL,
-  created_at TIMESTAMP NOT NULL,
-  updated_at TIMESTAMP DEFAULT NULL
+  search_vectors TSVECTOR NOT NULL
 );
-
 CREATE TABLE answers (
   id VARCHAR PRIMARY KEY DEFAULT uuid_generate_v4(),
   user_id VARCHAR REFERENCES users(id) ON DELETE SET NULL,
@@ -45,3 +37,13 @@ CREATE TABLE answers (
   upvoted_by TEXT[] DEFAULT array[]::VARCHAR[],
   downvoted_by TEXT[] DEFAULT array[]::VARCHAR[]
 );
+CREATE TABLE comments (
+  id VARCHAR PRIMARY KEY DEFAULT uuid_generate_v4(),
+  user_id VARCHAR REFERENCES users(id) ON DELETE SET NULL,
+  answer_id VARCHAR REFERENCES answers(id) ON DELETE CASCADE,
+  question_id VARCHAR REFERENCES questions(id) ON DELETE CASCADE,
+  body VARCHAR NOT NULL,
+  created_at TIMESTAMP NOT NULL,
+  updated_at TIMESTAMP DEFAULT NULL
+);
+

@@ -4,6 +4,7 @@ const db = require("../dbConfig")
 router.get("/", async(req, res) => {
   const page = req.query.page || 0
   const sort = req.query.sort || 'new'
+  const tag = req.query
   try{
 
     if(sort === 'top') {
@@ -58,6 +59,93 @@ router.get("/", async(req, res) => {
   }
 })
 
+router.get("/search", async(req,res) => {
+  const page = req.query.page || 0
+  const searchParam = req.query.q.replace(/\s/g, "|");
+  try{
+
+      const fetchAllPostsQuery = await db.query(`SELECT q.id AS question_id, users.username, url, q.downvoted_by, q.upvoted_by, q.created_at, tags, COUNT(answers.question_id) AS total_answers, title, q.body, views
+      FROM questions q 
+      JOIN users ON users.id = user_id
+      LEFT JOIN answers ON answers.question_id = q.id
+      WHERE search_vectors @@ to_tsquery($1)
+      GROUP BY q.id, users.username, url, q.downvoted_by, q.upvoted_by, q.created_at, tags
+      ORDER BY 
+          q.created_at DESC
+      OFFSET $2
+      LIMIT 15`, [ searchParam ,page*15])
+      res.status(200).json({
+        status: "Success",
+        message: fetchAllPostsQuery.rowCount <= 0 ? 'No more posts to show' : '',
+        questions: fetchAllPostsQuery.rows
+      })
+    
+  } catch(err) {
+    console.log(err)
+  }
+})
+
+router.get("/tag/:tagName", async(req, res) => {
+  const page = req.query.page || 0
+  const sort = req.query.sort || 'new'
+  const tag = req.params.tagName
+  try{
+
+    if(sort === 'top') {
+      const fetchAllPostsQuery = await db.query(`SELECT q.id AS question_id, users.username, url, q.downvoted_by, q.upvoted_by, q.created_at, tags, COUNT(answers.question_id) AS total_answers, title, q.body, views
+      FROM questions q
+      JOIN users ON users.id = user_id
+      LEFT JOIN answers ON answers.question_id = q.id
+      WHERE $1 ILIKE ANY(tags)
+      GROUP BY q.id, users.username, url, q.downvoted_by, q.upvoted_by, q.created_at, tags  
+      ORDER BY cardinality(q.upvoted_by) - cardinality(q.downvoted_by) desc
+      OFFSET $2
+      LIMIT 15
+      `, [tag, page*15])
+  
+      res.status(200).json({
+        status: "Success",
+        message: fetchAllPostsQuery.rowCount <= 0 ? 'No more posts to show' : '',
+        questions: fetchAllPostsQuery.rows
+      })
+    } else if (sort === 'views') {
+      const fetchAllPostsQuery = await db.query(`SELECT q.id AS question_id, users.username, url, q.downvoted_by, q.upvoted_by, q.created_at, tags, COUNT(answers.question_id) AS total_answers, title, q.body, views
+      FROM questions q 
+      JOIN users ON users.id = user_id
+      LEFT JOIN answers ON answers.question_id = q.id
+      WHERE $1 ILIKE ANY(tags)
+      GROUP BY q.id, users.username, url, q.downvoted_by, q.upvoted_by, q.created_at, tags
+      ORDER BY views DESC
+      OFFSET $2
+      LIMIT 15`, [tag,page*15])
+  
+      res.status(200).json({
+        status: "Success",
+        message: fetchAllPostsQuery.rowCount <= 0 ? 'No more posts to show' : '',
+        questions: fetchAllPostsQuery.rows
+      })
+    } else {
+      const fetchAllPostsQuery = await db.query(`SELECT q.id AS question_id, users.username, url, q.downvoted_by, q.upvoted_by, q.created_at, tags, COUNT(answers.question_id) AS total_answers, title, q.body, views
+      FROM questions q 
+      JOIN users ON users.id = user_id
+      LEFT JOIN answers ON answers.question_id = q.id
+      WHERE $1 ILIKE ANY(tags)
+      GROUP BY q.id, users.username, url, q.downvoted_by, q.upvoted_by, q.created_at, tags
+      ORDER BY q.created_at DESC
+      OFFSET $2
+      LIMIT 15`, [tag,page*15])
+  
+      res.status(200).json({
+        status: "Success",
+        message: fetchAllPostsQuery.rowCount <= 0 ? 'No more posts to show' : '',
+        questions: fetchAllPostsQuery.rows
+      })
+    }
+  
+  } catch(err) {
+    console.log(err)
+  }
+})
 
 router.post("/publish", async(req, res) => {
   const title = req.body.title
@@ -66,7 +154,6 @@ router.post("/publish", async(req, res) => {
   const tags = req.body.tags
   const createdAt = new Date()
 
-  console.log(title)
 
   try{
 
@@ -74,7 +161,7 @@ router.post("/publish", async(req, res) => {
 
     if(!title || !body) return res.status(400).json({status: "Failure", message: "Please enter all fields"})
 
-    const addPostQuery = await db.query("INSERT INTO questions(user_id, title, body, created_at, upvoted_by, tags) VALUES ($1, $2, $3, $4, $5, $6) returning id", [userID, title, body, createdAt, [userID], tags ])
+    const addPostQuery = await db.query("INSERT INTO questions(user_id, title, body, created_at, upvoted_by, tags, search_vectors) VALUES ($1, $2, $3, $4, $5, $6,to_tsvector($7)) returning id", [userID, title, body, createdAt, [userID], tags, body ])
 
     res.status(201).json({
       status: "Success",
@@ -103,9 +190,9 @@ router.post('/:qID/edit', async(req, res) => {
     if(!userID) return res.status(401).json({status: "Failure", message: "Please login to be able to update contents of the question"})
 
     const editQuestionQuery = await db.query(`UPDATE questions SET 
-    body = $1, updated_at = $2
+    body = $1, updated_at = $2, search_vectors = to_tsvector($5)
     WHERE id = $3 AND user_id = $4 
-    RETURNING body, updated_at`, [editedBody, new Date(), qID, userID])
+    RETURNING body, updated_at`, [editedBody, new Date(), qID, userID, editedBody])
 
     if(editQuestionQuery.rows[0].body) {
       res.status(202).json({
@@ -161,7 +248,7 @@ router.get('/:id', async(req, res) => {
     res.status(200).json({status: "Success", questionDetails: getQuestionDetails.rows[0]})
 
   } catch(err) {
-
+    console.log(err)
   }
 })
 
